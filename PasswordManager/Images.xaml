@@ -1,0 +1,5 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Path x:Key ="UserLoginIcon" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path3771" Fill="#FFFFFFFF"
+Data="M256 0C114.614 0 0 114.614 0 256s114.614 256 256 256s256-114.614 256-256S397.384 0 256 0z M256 484.243    c-125.853 0-228.243-102.39-228.243-228.243S130.147 27.757 256 27.757S484.243 130.147 484.243 256S381.853 484.243 256 484.243z    "></Path>
+</ResourceDictionary>
