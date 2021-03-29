@@ -31,6 +31,15 @@ namespace PasswordManager
             loginID = curId++;
         }
 
+        public UserLogin(string title, string websiteUrl, string login, string password, string comment, string imageSource, int gridRow, int gridColumn)
+            : base(title, comment, imageSource, gridRow, gridColumn)
+        {
+            this.websiteUrl = websiteUrl;
+            this.login = login;
+            this.password = password;
+            loginID = curId++;
+        }
+
         public string WebsiteUrl
         {
             get { return websiteUrl; }

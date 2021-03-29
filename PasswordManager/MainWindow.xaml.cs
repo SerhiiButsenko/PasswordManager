@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PasswordManager
@@ -22,9 +15,12 @@ namespace PasswordManager
     public partial class MainWindow : Window
     {
         public ObservableCollection<UserLogin> Logins { get; set; }
-        public ObservableCollection<CustomMenuItem> MenuItemsCollection { get; set; }
+        public ObservableCollection<MenuItem> SideBarImages { get; set; }
+        public ObservableCollection<MenuItem> OpenedBarImages { get; set; }
 
         private Ellipse HoveredBackground, HoveredIcon;
+
+        bool isSidebarOpened, isMenuOpened;
 
         private void InitializeEllipses()
         {
@@ -35,9 +31,10 @@ namespace PasswordManager
             HoveredBackground.Cursor = HoveredIcon.Cursor = Cursors.Hand;
 
             HoveredBackground.Fill = new SolidColorBrush(Color.FromArgb(50, 255, 255, 255));
-            HoveredIcon.Fill = new ImageBrush(new BitmapImage(new Uri("Images/InterfaceIcons/ShowUserElement.png", UriKind.Relative)));
+            HoveredIcon.Fill = new ImageBrush(new BitmapImage(new Uri("/Images/InterfaceIcons/OpenMenuIcon.png", UriKind.Relative)));
         }
 
+       
         public MainWindow()
         {
             InitializeComponent();
@@ -46,59 +43,78 @@ namespace PasswordManager
             Logins = new ObservableCollection<UserLogin>
             {
                 new UserLogin("Facebook", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion", 
-                "This is my Facebook password", "/Images/LoginIcons/0.png" ),
+                "This is my Facebook password", "/Images/LoginIcons/0.png", 0, 0 ),
                  new UserLogin("SoundCloud", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/1.png" ),
+                "This is my Facebook password", "/Images/LoginIcons/1.png", 0, 1 ),
                   new UserLogin("YouTube", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/2.png" ),
+                "This is my Facebook password", "/Images/LoginIcons/2.png", 0, 2 ),
                    new UserLogin("Twitter", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/3.png" ),
+                "This is my Facebook password", "/Images/LoginIcons/3.png", 0, 3 ),
                     new UserLogin("Instagram", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/4.png" ),
+                "This is my Facebook password", "/Images/LoginIcons/4.png", 1, 0 ),
                      new UserLogin("Spotify", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/5.png" ),
+                "This is my Facebook password", "/Images/LoginIcons/spotify.png", 1, 1 ),
                       new UserLogin("LinkedIn", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/6.png" ),
+                "This is my Facebook password", "/Images/LoginIcons/6.png", 1, 2 ),
                        new UserLogin("TikTok", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/7.png" )
+                "This is my Facebook password", "/Images/LoginIcons/7.png", 1, 3 )
             };
-            //loginsList.ItemsSource = Logins;
+            loginsList.ItemsSource = Logins;
 
-            MenuItemsCollection = new ObservableCollection<CustomMenuItem>
+            SideBarImages = new ObservableCollection<MenuItem>
             {
-                new CustomMenuItem("Logins", "/Images/InterfaceIcons/LoginIcon.png", "LoginsMenuButton"),
-                new CustomMenuItem("Passwords", "/Images/InterfaceIcons/PasswordIcon.png", "PasswordsMenuButton"),
-                new CustomMenuItem("Credit cards", "/Images/InterfaceIcons/CreditCardIcon.png", "CreditCardsMenuButton"),
-                new CustomMenuItem("Safe notes", "/Images/InterfaceIcons/NotesIcon.png", "SafeNotesMenuButton"),
-                new CustomMenuItem("Forms Wizard", "/Images/InterfaceIcons/FormsIcon.png", "FormsWizardMenuButton")
+                new MenuItem("", "/Images/InterfaceIcons/blueUser.png", "LoginSideBarBtn", 0, 0),
+                new MenuItem("", "/Images/InterfaceIcons/bluePassword.png", "PasswordSideBarBtn", 1, 0),
+                new MenuItem("", "/Images/InterfaceIcons/blueCreditCards.png", "CreditCardSideBarBtn", 2, 0),
+                new MenuItem("", "/Images/InterfaceIcons/blueNote.png", "NoteSideBarBtn", 3, 0),
+                new MenuItem("", "/Images/InterfaceIcons/blueIdentity.png", "IdentitySideBarBtn", 4, 0),
+                new MenuItem("", "/Images/InterfaceIcons/blueSettings.png", "SettingsSideBarBtn", 6, 0),
+                //new MenuItem("", "/Images/InterfaceIcons/blueUser.png", "TestIcon", 5, 0),
+                new MenuItem("", "/Images/InterfaceIcons/simpleLogOut.png", "LogOutSideBarBtn", 7, 0),
+                //new MenuItem("", "/Images/InterfaceIcons/blueMenu.png", "LogOutSideBarBtn", 8, 0),
             };
-            LeftMenu.ItemsSource = MenuItemsCollection;
+            Sidebar.ItemsSource = SideBarImages;
+
+            OpenedBarImages = new ObservableCollection<MenuItem>
+            {
+                new MenuItem("Logins", "/Images/InterfaceIcons/blueUser.png", "LoginOpenedSideBarBtn", 0, 0),
+                new MenuItem("Passwords", "/Images/InterfaceIcons/bluePassword.png", "PasswordOpenedSideBarBtn", 1, 0),
+                new MenuItem("CreditCards", "/Images/InterfaceIcons/blueCreditCards.png", "CreditCardsOpenedSideBarBtn", 2, 0),
+                new MenuItem("Notes", "/Images/InterfaceIcons/blueNote.png", "NotesOpenedSideBarBtn", 3, 0),
+                new MenuItem("Form Wizard", "/Images/InterfaceIcons/blueIdentity.png", "IdentitiesOpenedSideBarBtn", 4, 0),
+                new MenuItem("Settings", "/Images/InterfaceIcons/blueSettings.png", "SettingsOpenedSideBarBtn", 6, 0),
+                new MenuItem("Log Out", "/Images/InterfaceIcons/simpleLogOut.png", "LogOutOpenedSideBarBtn", 7, 0),
+            };
+            OpenedSidebar.ItemsSource = OpenedBarImages;
 
 
             //--------------------------------------------------------Visible Controls---------------------------------------------------------------//
             OpenMenuButton.Visibility = Visibility.Visible;
             AddNewElementButton.Visibility = Visibility.Visible;
-            LeftMenu.Visibility = Visibility.Visible;
-            LogOutBtn.Visibility = Visibility.Visible;
-            SettingsBtn.Visibility = Visibility.Visible;
             closeElementInfoPanel.Visibility = Visibility.Visible;
             ElementImagePanel.Visibility = Visibility.Visible;
+            Taskbar.Visibility = Visibility.Visible;
+            changePagePanel.Visibility = Visibility.Visible;
 
             //--------------------------------------------------------Hidden Controls---------------------------------------------------------------//
             MenuOpenedCoverPanel.Visibility = Visibility.Hidden;
-            loginsList.Visibility = Visibility.Hidden;
+            loginsList.Visibility = Visibility.Visible;
             ElementInfoPanel.Visibility = Visibility.Hidden;
-            MenuStackPanel.Visibility = Visibility.Hidden;
-            HoveredBackground.Visibility = HoveredIcon.Visibility = Visibility.Hidden;
+            HoveredBackground.Visibility = HoveredIcon.Visibility = Visibility.Visible;
+            OpenedSidebar.Visibility = Visibility.Hidden;
+            Sidebar.Visibility = Visibility.Hidden;
+            isSidebarOpened = false;
+            openedMenuTaskbarIcon.Visibility = Visibility.Hidden;
+            isMenuOpened = false;
 
             //--------------------------------------------------------Z-Indicees---------------------------------------------------------------//
-            Panel.SetZIndex(MenuStackPanel, 1);
             Panel.SetZIndex(loginsList, 0);
             Panel.SetZIndex(HoveredBackground, 1);
             Panel.SetZIndex(HoveredIcon, 2);
             Panel.SetZIndex(MenuOpenedCoverPanel, 3);
-
-
+            Panel.SetZIndex(Sidebar, 3);
+            Panel.SetZIndex(OpenedSidebar, 4);
+            Panel.SetZIndex(openedMenuTaskbarIcon, 3);
         }
 
         private void HoveredBackground_Loaded(object sender, RoutedEventArgs e)
@@ -165,23 +181,107 @@ namespace PasswordManager
             (sender as Button).Background = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
 
-        private void OpenMenuBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            OpenMenuButton.Visibility = Visibility.Hidden;
-            MenuStackPanel.Visibility = Visibility.Visible;
-            MenuOpenedCoverPanel.Visibility = Visibility.Visible;
-        }
-
         private void LogOutBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("Do you really want to exit?");
         }
 
-        private void MenuOpenedCoverPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        private void menuElement_MouseEnter(object sender, MouseEventArgs e)
         {
-            OpenMenuButton.Visibility = Visibility.Visible;
-            MenuStackPanel.Visibility = Visibility.Hidden;
-            MenuOpenedCoverPanel.Visibility = Visibility.Hidden;
+            StackPanel hoveredPanel = sender as StackPanel;        
+            Image hoveredImage = hoveredPanel.Children[0] as Image;
+            hoveredPanel.Background = new SolidColorBrush(Color.FromRgb(236, 236, 236));
+
+            switch ((hoveredPanel.Children[1] as TextBlock).Text)
+            {
+                case "Logins":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/blueFilledUser.png", UriKind.Relative));
+                    break;
+                case "Passwords":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/blueFilledPassword.png", UriKind.Relative));
+                    break;
+                case "CreditCards":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/newFilledCreditCard.png", UriKind.Relative));
+                    break;
+                case "Notes":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/blueFilledNote.png", UriKind.Relative));
+                    break;
+                case "Form Wizard":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/bluefilledIdentity.png", UriKind.Relative));
+                    break;
+                case "Settings":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/blueFilledSettings.png", UriKind.Relative));
+                    break;
+                case "Log Out":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/filledLogOut.png", UriKind.Relative));
+                    break;
+            }
+        }
+
+        private void menuElement_MouseLeave(object sender, MouseEventArgs e)
+        {
+            StackPanel hoveredPanel = sender as StackPanel;
+            Image hoveredImage = hoveredPanel.Children[0] as Image;
+            hoveredPanel.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+
+            switch ((hoveredPanel.Children[1] as TextBlock).Text)
+            {
+                case "Logins":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/blueUser.png", UriKind.Relative));
+                    break;
+                case "Passwords":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/bluePassword.png", UriKind.Relative));
+                    break;
+                case "CreditCards":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/blueCreditCards.png", UriKind.Relative));
+                    break;
+                case "Notes":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/blueNote.png", UriKind.Relative));
+                    break;
+                case "Form Wizard":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/blueIdentity.png", UriKind.Relative));
+                    break;
+                case "Settings":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/blueSettings.png", UriKind.Relative));
+                    break;
+                case "Log Out":
+                    hoveredImage.Source = new BitmapImage(new Uri("/Images/InterfaceIcons/simpleLogOut.png", UriKind.Relative));
+                    break;
+            }
+        }
+
+        private void Sidebar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            OpenedSidebar.Visibility = Visibility.Visible;
+        }
+
+        private void openedMenuTaskbarIcon_MouseLeave(object sender, MouseEventArgs e)
+        {
+            openedMenuTaskbarIcon.Visibility = Visibility.Hidden;
+            Sidebar.Visibility = Visibility.Hidden;
+        }
+
+        private void OpenedSidebar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            openedMenuTaskbarIcon.Visibility = Visibility.Visible;
+            Sidebar.Visibility = Visibility.Visible;
+        }
+
+        private void OpenedSidebar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            openedMenuTaskbarIcon.Visibility = Visibility.Hidden;
+            OpenedSidebar.Visibility = Visibility.Hidden;
+        }
+
+        private void openedMenuTaskbarIcon_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Sidebar.Visibility = Visibility.Visible;
+        }
+
+        private void OpenMenuButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            openedMenuTaskbarIcon.Visibility = Visibility.Visible;
+            Sidebar.Visibility = Visibility.Visible;
         }
 
         private void ElementImageEllipse_MouseEnter(object sender, MouseEventArgs e)
