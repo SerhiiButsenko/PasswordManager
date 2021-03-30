@@ -23,7 +23,7 @@ namespace PasswordManager
             this.title = title;
             this.comment = comment;
             this.imageSource = imageSource;
-            this.gridRow = this.gridColumn = 0;
+            this.gridRow = this.gridColumn = -1;
         }
 
         public UserElement(string title, string comment, string imageSource, int gridRow, int gridColumn)
@@ -33,9 +33,7 @@ namespace PasswordManager
             this.imageSource = imageSource;
             this.gridRow = gridRow;
             this.gridColumn = gridColumn;
-        }
-
-       
+        }     
 
         public int GridRow
         {

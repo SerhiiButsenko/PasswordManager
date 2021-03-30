@@ -196,6 +196,19 @@ namespace PasswordManager
 
         private void SaveElementButton_Click(object sender, RoutedEventArgs e)
         {
+
+
+
+
+
+
+
+
+
+
+
+
+
             ElementInfoPanel.Visibility = Visibility.Hidden;
             AddNewElementButton.Visibility = Visibility.Visible;
         }

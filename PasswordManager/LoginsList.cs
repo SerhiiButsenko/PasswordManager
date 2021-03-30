@@ -124,5 +124,19 @@ namespace PasswordManager
             currentPage = pages[pageNumber - 1];
             LoadCurrentPage();
         }
+
+        public void addNewLogin(UserLogin newLogin)
+        {
+            if (pages[pages.Count - 1].NumberOfElements == 8)
+            {
+                pages.Add(new LoginsListPage(new UserLogin[8], pages.Count));
+                currentPage = pages[pages.Count - 1];
+            }
+
+            pages[pages.Count - 1].addNewElement(newLogin);
+            LoadCurrentPage();
+        }
+
+
     }
 }
