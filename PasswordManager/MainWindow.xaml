@@ -21,7 +21,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">
                         <Border x:Name="border" CornerRadius="3" BorderBrush="#336ca6" BorderThickness="2" Background="#FAFAFA">
-                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                            <ScrollViewer Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                         </Border>
                        <!-- <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
@@ -125,7 +125,7 @@
                         </Ellipse>
                     </StackPanel>
 
-                    <StackPanel x:Name="HoveredBackground" Canvas.Top="60" Width="140" Loaded="HoveredBackground_Loaded">
+                    <StackPanel x:Name="HoveredBackground" Canvas.Top="54" Width="140" Loaded="HoveredBackground_Loaded">
                         <Ellipse x:Name = "HoveredBackgroundEllipse" HorizontalAlignment="Center" Style="{StaticResource UserLoginEllipse}" MouseLeave="HoveredBackgroundEllipse_MouseLeave" >
                             <Ellipse.Fill>
                                 <SolidColorBrush Color="White" Opacity="0.75" />
@@ -133,7 +133,7 @@
                         </Ellipse>
                     </StackPanel>
 
-                    <StackPanel x:Name="HoveredIcon" Canvas.Top="80" Width="140" Loaded="HoveredIcon_Loaded">
+                    <StackPanel x:Name="HoveredIcon" Canvas.Top="70" Width="140" Loaded="HoveredIcon_Loaded">
                         <Ellipse Width="35" Height="35" x:Name = "HoveredIconEllipse" HorizontalAlignment="Center" 
                                  Style="{StaticResource UserLoginEllipse}" StrokeThickness="0" MouseEnter="HoveredIconEllipse_MouseEnter">
                             <Ellipse.Fill>
@@ -175,7 +175,8 @@
 
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="495*"/>
+            <RowDefinition Height="55*"/>
+            <RowDefinition Height="440*"/>
             <RowDefinition Height="55*"/>
             <RowDefinition Height="55*"/>
         </Grid.RowDefinitions>
@@ -185,9 +186,37 @@
             <ColumnDefinition Width= "50*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel x:Name="MenuOpenedCoverPanel" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" Width="600" HorizontalAlignment="Right" Background="Transparent" />
+        <!--  <StackPanel x:Name="MenuOpenedCoverPanel" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" Width="600" HorizontalAlignment="Right" Background="Transparent" /> -->
 
-        <ItemsControl x:Name="Sidebar" Grid.RowSpan="2"  Padding="0, 10, 0, 0" Background="White"
+        <StackPanel x:Name="searchField" Grid.Column ="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="280" Height="35">
+           
+
+                <TextBox Width="250" HorizontalAlignment="Left" Height="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="dasdad" Foreground="White" Cursor="IBeam" FontSize="14">
+                    <TextBox.Template>
+                        <ControlTemplate TargetType="{x:Type TextBox}">
+                            <Border x:Name="border" CornerRadius="3" BorderBrush="White" BorderThickness="2" Background="Transparent">
+                                <Grid Width="250" Height="35">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="215"/>
+                                        <ColumnDefinition Width="35"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="35"/>
+                                    </Grid.RowDefinitions>
+
+                                     <ScrollViewer Grid.Column="0" Height="35" Foreground="White" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                     <Border Grid.Column="1" Width="35" HorizontalAlignment="Right" CornerRadius="0.5" Background="#336ca6" Cursor="Hand">
+                                        <Image Width="20" Height="25" Source="/Images/InterfaceIcons/searchLoupe.png"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </TextBox.Template>
+                </TextBox>
+           
+        </StackPanel>
+      
+        <ItemsControl x:Name="Sidebar" Grid.RowSpan="3"  Padding="0, 10, 0, 0" Background="White"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                       ItemTemplate="{StaticResource SideBarElement}" MouseEnter="Sidebar_MouseEnter">
@@ -220,7 +249,7 @@
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
 
-        <ItemsControl x:Name="OpenedSidebar" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="230" HorizontalAlignment="Left" Padding="0, 10, 0, 0"
+        <ItemsControl x:Name="OpenedSidebar" Grid.RowSpan="3" Grid.ColumnSpan="2" Width="230" HorizontalAlignment="Left" Padding="0, 10, 0, 0"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                       ItemTemplate="{StaticResource OpenedSideBarElement}"
@@ -253,7 +282,7 @@
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
 
-        <ItemsControl x:Name="loginsList" Grid.Column="1" Grid.RowSpan="2" Width="650" Height ="400" Background="Transparent" BorderThickness="0"
+        <ItemsControl x:Name="loginsList" Grid.Column="1" Grid.Row="1" Width="650" Height ="400" Background="Transparent" BorderThickness="0"
                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
                        ItemTemplate="{StaticResource SavedElement}" Cursor="Hand">
@@ -283,7 +312,7 @@
 
         </ItemsControl>
 
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" BorderBrush="Black">
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="0" BorderBrush="Black">
             <StackPanel x:Name="ElementInfoPanel" Height="515" Background="White">
                 <Grid Height="515" Width="290">
                     <Grid.RowDefinitions>
@@ -361,7 +390,7 @@
             </StackPanel>
         </Border>
 
-        <StackPanel x:Name="openedMenuTaskbarIcon" Grid.Row="2" Background="White" Height="54" MouseLeave="openedMenuTaskbarIcon_MouseLeave" MouseEnter="openedMenuTaskbarIcon_MouseEnter">
+        <StackPanel x:Name="openedMenuTaskbarIcon" Grid.Row="3" Background="White" Height="54" MouseLeave="openedMenuTaskbarIcon_MouseLeave" MouseEnter="openedMenuTaskbarIcon_MouseEnter">
             <Grid Height="54">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -374,23 +403,27 @@
             </Grid>
         </StackPanel>
 
-        <StackPanel x:Name="changePagePanel" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Height="30">
+        <StackPanel x:Name="changePagePanel" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="250" Height="30">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40*"/>
-                    <ColumnDefinition Width="120*"/>
-                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="60*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
-                <Image x:Name="arrowLeft" HorizontalAlignment="Right" Source="/Images/InterfaceIcons/LeftArrow.png" Width="35" Height="25" Cursor="Hand"/>
-                <TextBlock x:Name="pageNumberTextBlock" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Page 1" Foreground="White" FontSize="25" FontFamily="/Roboto/Roboto-Bold.ttf #Roboto"/>
-                <Image x:Name="arrowRight" Grid.Column="2" HorizontalAlignment="Left" Source="/Images/InterfaceIcons/RightArrow.png" Width="35" Height="25" Cursor="Hand"/> 
+                <Image x:Name="arrowFirstPage" HorizontalAlignment="Center" Source="/Images/InterfaceIcons/FirstPage.png" Width="35" Height="25" Cursor="Hand" Opacity="0.5" MouseLeftButtonDown="arrowFirstPage_MouseLeftButtonDown"/>
+                <Image x:Name="arrowLeft" Grid.Column="1" HorizontalAlignment="Center" Source="/Images/InterfaceIcons/LeftArrow.png" Width="35" Height="29" Cursor="Hand" MouseLeftButtonDown="arrowLeft_MouseLeftButtonDown"/>
+                <TextBlock x:Name="pageNumberTextBlock" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="11" Foreground="White" FontSize="30" FontFamily="/Roboto/Roboto-Bold.ttf #Roboto"/>
+                <Image x:Name="arrowRight" Grid.Column="3" HorizontalAlignment="Center" Source="/Images/InterfaceIcons/RightArrow.png" Width="35" Height="29" Cursor="Hand" MouseLeftButtonDown="arrowRight_MouseLeftButtonDown"/>
+                <Image x:Name="arrowLastPage" Grid.Column="4" HorizontalAlignment="Center" Source="/Images/InterfaceIcons/LastPage.png" Width="35" Height="25" Cursor="Hand" MouseLeftButtonDown="arrowLastPage_MouseLeftButtonDown"/>
             </Grid>
         </StackPanel>
 
-        <StackPanel x:Name="Taskbar" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Background="#336ca6" Height="54">
+        <StackPanel x:Name="Taskbar" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Background="#336ca6" Height="54">
             <Grid Height="54">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="54"/>
@@ -402,7 +435,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Image x:Name="OpenMenuButton" Grid.Column="0" Style="{StaticResource TaskBarImage}" Width="35" Height="28" Source="/Images/InterfaceIcons/whiteMenuIcon.png" MouseEnter="OpenMenuButton_MouseEnter" />
-                <Image x:Name="AddNewElementButton" Grid.Column="2" Style="{StaticResource TaskBarImage}" Width="40" Height="40" Source="/Images/InterfaceIcons/AddNewElement.png" />
+                <Image x:Name="AddNewElementButton" Grid.Column="2" Style="{StaticResource TaskBarImage}" Width="40" Height="40" Source="/Images/InterfaceIcons/AddNewElement.png" MouseLeftButtonDown="AddNewElementButton_MouseLeftButtonDown" />
             </Grid>
         </StackPanel>
     </Grid>

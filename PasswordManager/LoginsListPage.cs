@@ -22,5 +22,15 @@ namespace PasswordManager
         {
             return elements.Length;
         }
+
+        public int PageNumber
+        {
+            get { return pageNumber; }
+        }
+
+        public UserLogin[] Elements
+        {
+            get { return elements; }
+        }
     }
 }

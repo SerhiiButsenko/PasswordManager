@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,9 +15,11 @@ namespace PasswordManager
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<UserLogin> Logins { get; set; }
-        public ObservableCollection<MenuItem> SideBarImages { get; set; }
-        public ObservableCollection<MenuItem> OpenedBarImages { get; set; }
+        public List<UserLogin> Logins { get; set; }
+        public List<MenuItem> SideBarImages { get; set; }
+        public List<MenuItem> OpenedBarImages { get; set; }
+
+        LoginsList ListOfLogins;
 
         private Ellipse HoveredBackground, HoveredIcon;
 
@@ -40,7 +43,7 @@ namespace PasswordManager
             InitializeComponent();
             InitializeEllipses();
             
-            Logins = new ObservableCollection<UserLogin>
+            Logins = new List<UserLogin>
             {
                 new UserLogin("Facebook", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion", 
                 "This is my Facebook password", "/Images/LoginIcons/0.png", 0, 0 ),
@@ -57,11 +60,39 @@ namespace PasswordManager
                       new UserLogin("LinkedIn", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
                 "This is my Facebook password", "/Images/LoginIcons/6.png", 1, 2 ),
                        new UserLogin("TikTok", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/7.png", 1, 3 )
+                "This is my Facebook password", "/Images/LoginIcons/7.png", 1, 3 ),
+
+                          new UserLogin("TikTok", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/7.png", 0, 0 ),
+                            new UserLogin("LinkedIn", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/6.png", 0, 1),
+                            new UserLogin("Spotify", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/spotify.png", 0, 2 ),
+                             new UserLogin("YouTube", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/2.png", 0, 3 ),
+                        new UserLogin("Facebook", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/0.png", 1, 0),
+                 new UserLogin("SoundCloud", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/1.png", 1, 1 ),
+                   new UserLogin("Twitter", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/3.png", 1, 2 ),
+                    new UserLogin("Instagram", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/4.png", 1, 3 ),
+                     
+                    
+                     new UserLogin("Spotify", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/spotify.png", 0, 0 ),
+                      new UserLogin("LinkedIn", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/6.png", 0, 1 ),
+                       new UserLogin("TikTok", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/7.png", 0, 2 ),
+                         new UserLogin("YouTube", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", "/Images/LoginIcons/2.png", 0, 3 ),
             };
             loginsList.ItemsSource = Logins;
+            ListOfLogins = new LoginsList(loginsList, changePagePanel);
 
-            SideBarImages = new ObservableCollection<MenuItem>
+            SideBarImages = new List<MenuItem>
             {
                 new MenuItem("", "/Images/InterfaceIcons/blueUser.png", "LoginSideBarBtn", 0, 0),
                 new MenuItem("", "/Images/InterfaceIcons/bluePassword.png", "PasswordSideBarBtn", 1, 0),
@@ -75,7 +106,7 @@ namespace PasswordManager
             };
             Sidebar.ItemsSource = SideBarImages;
 
-            OpenedBarImages = new ObservableCollection<MenuItem>
+            OpenedBarImages = new List<MenuItem>
             {
                 new MenuItem("Logins", "/Images/InterfaceIcons/blueUser.png", "LoginOpenedSideBarBtn", 0, 0),
                 new MenuItem("Passwords", "/Images/InterfaceIcons/bluePassword.png", "PasswordOpenedSideBarBtn", 1, 0),
@@ -97,7 +128,7 @@ namespace PasswordManager
             changePagePanel.Visibility = Visibility.Visible;
 
             //--------------------------------------------------------Hidden Controls---------------------------------------------------------------//
-            MenuOpenedCoverPanel.Visibility = Visibility.Hidden;
+          //  MenuOpenedCoverPanel.Visibility = Visibility.Hidden;
             loginsList.Visibility = Visibility.Visible;
             ElementInfoPanel.Visibility = Visibility.Hidden;
             HoveredBackground.Visibility = HoveredIcon.Visibility = Visibility.Visible;
@@ -111,7 +142,7 @@ namespace PasswordManager
             Panel.SetZIndex(loginsList, 0);
             Panel.SetZIndex(HoveredBackground, 1);
             Panel.SetZIndex(HoveredIcon, 2);
-            Panel.SetZIndex(MenuOpenedCoverPanel, 3);
+          //  Panel.SetZIndex(MenuOpenedCoverPanel, 3);
             Panel.SetZIndex(Sidebar, 3);
             Panel.SetZIndex(OpenedSidebar, 4);
             Panel.SetZIndex(openedMenuTaskbarIcon, 3);
@@ -276,6 +307,31 @@ namespace PasswordManager
         private void openedMenuTaskbarIcon_MouseEnter(object sender, MouseEventArgs e)
         {
             Sidebar.Visibility = Visibility.Visible;
+        }
+
+        private void arrowRight_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ListOfLogins.increasePage();
+        }
+
+        private void arrowLeft_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ListOfLogins.decreasePage();
+        }
+
+        private void arrowLastPage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ListOfLogins.goToLastPage();
+        }
+
+        private void arrowFirstPage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ListOfLogins.goToFirstPage();
+        }
+
+        private void AddNewElementButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ElementInfoPanel.Visibility = Visibility.Visible;
         }
 
         private void OpenMenuButton_MouseEnter(object sender, MouseEventArgs e)
