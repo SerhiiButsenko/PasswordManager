@@ -22,7 +22,9 @@ namespace PasswordManager
 
         private Ellipse HoveredBackground, HoveredIcon;
 
-        TextBoxEditor titleElement, websiteElement, loginElement, passwordElement;
+        TextBoxEditor[] formElements;
+
+        bool richTextBoxSelected;
 
 
         private void InitializeEllipses()
@@ -118,10 +120,16 @@ namespace PasswordManager
             };
             OpenedSidebar.ItemsSource = OpenedBarImages;
 
-            titleElement = new TextBoxEditor(titleStackPanel, true);
-            websiteElement = new TextBoxEditor(websiteStackPanel, true);
-            loginElement = new TextBoxEditor(loginStackPanel, true);
-            passwordElement = new TextBoxEditor(passwordStackPanel, true);
+            formElements = new TextBoxEditor[4];
+            formElements[0] = new TextBoxEditor(titleStackPanel, true);
+            formElements[0].BindedTextBox.Tag = formElements[0];
+            formElements[1] = new TextBoxEditor(websiteStackPanel, true);
+            formElements[1].BindedTextBox.Tag = formElements[1];
+            formElements[2] = new TextBoxEditor(loginStackPanel, true);
+            formElements[2].BindedTextBox.Tag = formElements[2];
+            formElements[3] = new TextBoxEditor(passwordStackPanel, true);
+            formElements[3].BindedTextBox.Tag = formElements[3];
+            richTextBoxSelected = false;
 
 
             //--------------------------------------------------------Visible Controls---------------------------------------------------------------//
@@ -133,7 +141,7 @@ namespace PasswordManager
             changePagePanel.Visibility = Visibility.Visible;
 
             //--------------------------------------------------------Hidden Controls---------------------------------------------------------------//
-          //  MenuOpenedCoverPanel.Visibility = Visibility.Hidden;
+            //  MenuOpenedCoverPanel.Visibility = Visibility.Hidden;
             loginsList.Visibility = Visibility.Visible;
             ElementInfoPanel.Visibility = Visibility.Hidden;
             HoveredBackground.Visibility = HoveredIcon.Visibility = Visibility.Visible;
@@ -199,10 +207,17 @@ namespace PasswordManager
 
         private void SaveElementButton_Click(object sender, RoutedEventArgs e)
         {
-            bool thereIsNoErrors = false;
+            bool thereIsNoErrors = true;
 
-            titleElement.checkIfHasNoErrors(); websiteElement.checkIfHasNoErrors(); loginElement.checkIfHasNoErrors(); passwordElement.checkIfHasNoErrors();
-           
+            foreach(TextBoxEditor txtBox in formElements)
+            {
+                string error = txtBox.checkIfHasNoErrors();
+                if(error != "")
+                {
+                    thereIsNoErrors = false;
+                    txtBox.displayError(error);
+                }
+            }
 
             if (thereIsNoErrors)
             {
@@ -345,44 +360,69 @@ namespace PasswordManager
             ElementInfoPanel.Visibility = Visibility.Visible;
         }
 
-        private void websiteTextBox_GotFocus(object sender, RoutedEventArgs e)
+        
+
+        private void TextBox_MouseEnter(object sender, MouseEventArgs e)
         {
-            websiteElement.select();
+            (sender as TextBox).Background = new SolidColorBrush(Color.FromRgb(241, 241, 241));
         }
 
-        private void websiteTextBox_LostFocus(object sender, RoutedEventArgs e)
+        private void TextBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            websiteElement.unselect();
+            TextBox currentTextBox = sender as TextBox;
+            if((currentTextBox.Tag as TextBoxEditor).State != TextBoxState.Selected)
+            currentTextBox.Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
         }
 
-        private void loginTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void RichTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            loginElement.select();
+            (sender as RichTextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            (sender as RichTextBox).Background = new SolidColorBrush(Color.FromRgb(241, 241, 241));
+            (commentStackPanel.Children[0] as TextBlock).Style = (Style) Resources["selectedTextBoxLabel"];
+            richTextBoxSelected = true;
         }
 
-        private void loginTextBox_LostFocus(object sender, RoutedEventArgs e)
+        private void RichTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            loginElement.unselect();
+            (sender as RichTextBox).BorderBrush = new SolidColorBrush(Color.FromRgb(51, 108, 166));
+            (sender as RichTextBox).Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
+            (commentStackPanel.Children[0] as TextBlock).Style = (Style)Resources["textBoxLabel"];
+            richTextBoxSelected = false;
         }
 
-        private void passwordTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void RichTextBox_MouseEnter(object sender, MouseEventArgs e)
         {
-            passwordElement.select();
+            (sender as RichTextBox).Background = new SolidColorBrush(Color.FromRgb(241, 241, 241));
         }
 
-        private void passwordTextBox_LostFocus(object sender, RoutedEventArgs e)
+        private void RichTextBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            passwordElement.unselect();
+            if(!richTextBoxSelected)
+                (sender as RichTextBox).Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
         }
 
-        private void titleTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            titleElement.select();
+            foreach (TextBoxEditor txtBox in formElements)
+            {
+                if (txtBox.BindedTextBox == (sender as TextBox))
+                {
+                    txtBox.select();
+                    break;
+                }
+            }    
         }
 
-        private void titleTextBox_LostFocus(object sender, RoutedEventArgs e)
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            titleElement.unselect();
+            foreach (TextBoxEditor txtBox in formElements)
+            {
+                if (txtBox.BindedTextBox == (sender as TextBox))
+                {
+                    txtBox.unselect();
+                    break;
+                }
+            }
         }
 
         private void OpenMenuButton_MouseEnter(object sender, MouseEventArgs e)

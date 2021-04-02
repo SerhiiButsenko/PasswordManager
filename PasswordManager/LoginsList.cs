@@ -132,11 +132,9 @@ namespace PasswordManager
                 pages.Add(new LoginsListPage(new UserLogin[8], pages.Count));
                 currentPage = pages[pages.Count - 1];
             }
-
             pages[pages.Count - 1].addNewElement(newLogin);
             LoadCurrentPage();
         }
-
 
     }
 }

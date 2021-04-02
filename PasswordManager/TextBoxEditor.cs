@@ -29,6 +29,16 @@ namespace PasswordManager
             };
         }
 
+        public TextBox BindedTextBox
+        {
+            get { return textBox; }
+        }
+
+        public TextBoxState State
+        {
+            get { return state; }
+        }
+
         private void clearErrorMessage()
         {
             errorMessage.Text = "";
@@ -43,6 +53,7 @@ namespace PasswordManager
         {
             textBox.Style = (Style)Application.Current.MainWindow.Resources["normalTextBox"];
             textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            textBox.Background = new SolidColorBrush(Color.FromRgb(241, 241, 241));
             label.Style = (Style) Application.Current.MainWindow.Resources["selectedTextBoxLabel"];
             label.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
             clearErrorMessage();
@@ -54,13 +65,12 @@ namespace PasswordManager
 
         public void unselect()
         {
-            if (state == TextBoxState.Selected)
-            {
-                textBox.Style = (Style)Application.Current.MainWindow.Resources["normalTextBox"];
-                textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(51, 108, 166));
-                label.Style = (Style)Application.Current.MainWindow.Resources["textBoxLabel"];
-                label.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            }
+            textBox.Style = (Style)Application.Current.MainWindow.Resources["normalTextBox"];
+            textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(51, 108, 166));
+            textBox.Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
+            label.Style = (Style)Application.Current.MainWindow.Resources["textBoxLabel"];
+            label.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            state = TextBoxState.NotSelected;
         }
 
         public void displayError(string errorMessage)
@@ -74,20 +84,17 @@ namespace PasswordManager
             stackPanel.Children.Add(this.errorMessage); 
         }
 
-        public bool checkIfHasNoErrors()
+        public string checkIfHasNoErrors()
         {
             if (isFieldRequired)
             {
                 if (textBox.Text != "")
-                    return true;
+                    return "";
                 else
-                {
-                    displayError("Please fill in this field");
-                    return false;
-                }
+                    return "Please fill in this field";
             }
             else
-                return true;
+                return "";
         }
     }
 }

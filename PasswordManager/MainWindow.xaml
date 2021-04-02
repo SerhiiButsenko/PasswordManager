@@ -12,14 +12,14 @@
             <Setter Property="Width" Value="200"></Setter>
             <Setter Property="Height" Value="30"></Setter>
             <Setter Property="Foreground" Value="Red"/>
-            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontSize" Value="13"></Setter>
             <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Top"></Setter>
-            <Setter Property="Template">
+            <Setter Property="Template"> 
                 <Setter.Value>
                     <ControlTemplate x:Name="targetTextBox" TargetType="{x:Type TextBox}">
-                        <Border x:Name="border" CornerRadius="3" BorderBrush="#FF5F5F" BorderThickness="2" Background="#FAFAFA">
+                        <Border CornerRadius="3" BorderBrush="#FF5F5F" BorderThickness="2" Background="#FAFAFA">
                             <Grid Width="200" Height="30">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="30"/>
@@ -47,8 +47,8 @@
             <Setter Property="VerticalAlignment" Value="Top"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate x:Name="targetTextBox" TargetType="{x:Type TextBox}">
-                        <Border x:Name="border" CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="#FAFAFA">
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
                             <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                         </Border>
                     </ControlTemplate>
@@ -335,16 +335,16 @@
 
         </ItemsControl>
 
-        <Border x:Name="ElementInfoPanel" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="1" BorderBrush="White">
+        <Border x:Name="ElementInfoPanel" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" Height="515" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="1" BorderBrush="White">
             <StackPanel Height="510" Background="White" Width="250">
                 <Grid x:Name="saveElementGrid" Height="515" Width="250">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="90*"/>
-                        <RowDefinition Height="75*"/>
-                        <RowDefinition Height="75*"/>
-                        <RowDefinition Height="75*"/>
-                        <RowDefinition Height="75*"/>
-                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="77*"/>
+                        <RowDefinition Height="77*"/>
+                        <RowDefinition Height="77*"/>
+                        <RowDefinition Height="77*"/>
+                        <RowDefinition Height="70*"/>
                         <RowDefinition Height="50*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -376,36 +376,55 @@
                    
                    <StackPanel x:Name="titleStackPanel" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Title*"/>
-                        <TextBox BorderBrush="#336ca6" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus"/>
+                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3" 
+                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave" />
                    </StackPanel>
 
                     <StackPanel x:Name="websiteStackPanel" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Website-Address*"/>
-                        <TextBox BorderBrush="#336ca6" Style="{StaticResource normalTextBox}"  Margin="0, 3, 0, 3" GotFocus="websiteTextBox_GotFocus" LostFocus="websiteTextBox_LostFocus"/>
+                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}"  Margin="0, 3, 0, 3"
+                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave"/>
                     </StackPanel>
 
                     <StackPanel x:Name="loginStackPanel" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Login*"/>
-                        <TextBox BorderBrush="#336ca6" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3" GotFocus="loginTextBox_GotFocus" LostFocus="loginTextBox_LostFocus" />
+                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3"
+                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave"/>
                     </StackPanel>
-
 
                     <StackPanel x:Name="passwordStackPanel" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Password*"/>
-                        <TextBox BorderBrush="#336ca6" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3" GotFocus="passwordTextBox_GotFocus" LostFocus="passwordTextBox_LostFocus" />
+                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3"
+                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave" />
                     </StackPanel>
+                    
+                    <!-- 
+                     <Setter Property="Width" Value="200"></Setter>
+                     <Setter Property="Height" Value="30"></Setter>
+                     <Setter Property="Foreground" Value="Red"/>
+                     <Setter Property="FontSize" Value="12"></Setter>
+                     <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
+                     <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                     <Setter Property="VerticalAlignment" Value="Top"></Setter>
+                    -->
 
-                    <StackPanel x:Name="commentStackPanel" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel x:Name="commentStackPanel" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Comment"/>
-                        <TextBox VerticalContentAlignment="Top" Style="{StaticResource normalTextBox}" Padding="0, 6, 0, 0" Height="80" Margin="0, 3, 0, 0"/>
+                        <RichTextBox Width="200" Height="50" BorderBrush="#336ca6" VerticalContentAlignment="Top" Padding="0, 6, 0, 0"  Margin="0, 3, 0, 0" FontSize="13" FontFamily="/Roboto/Roboto-Regular.ttf #Roboto" Background="#FAFAFA" GotFocus="RichTextBox_GotFocus" LostFocus="RichTextBox_LostFocus" MouseEnter="RichTextBox_MouseEnter" MouseLeave="RichTextBox_MouseLeave" >
+                            <RichTextBox.Template>
+                                <ControlTemplate>
+                                    <Border CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+                                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </RichTextBox.Template>
+                        </RichTextBox>
                     </StackPanel>
-
 
                     <Button x:Name="SaveElementButton" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource BlueButton}"
                            Content="Save" Click="SaveElementButton_Click"/>
                     <Button x:Name="CancelElementButton" Grid.Column="3" Grid.Row="6" Style="{StaticResource GreyButton}" HorizontalAlignment="Left" VerticalAlignment="Center"
                             Content="Cancel" Click="CancelElementButton_Click"/>
-                   
                 </Grid>
             </StackPanel>
         </Border>
