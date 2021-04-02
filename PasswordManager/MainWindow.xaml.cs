@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,7 +22,8 @@ namespace PasswordManager
 
         private Ellipse HoveredBackground, HoveredIcon;
 
-        bool isSidebarOpened, isMenuOpened;
+        TextBoxEditor titleElement, websiteElement, loginElement, passwordElement;
+
 
         private void InitializeEllipses()
         {
@@ -118,6 +118,11 @@ namespace PasswordManager
             };
             OpenedSidebar.ItemsSource = OpenedBarImages;
 
+            titleElement = new TextBoxEditor(titleStackPanel, true);
+            websiteElement = new TextBoxEditor(websiteStackPanel, true);
+            loginElement = new TextBoxEditor(loginStackPanel, true);
+            passwordElement = new TextBoxEditor(passwordStackPanel, true);
+
 
             //--------------------------------------------------------Visible Controls---------------------------------------------------------------//
             OpenMenuButton.Visibility = Visibility.Visible;
@@ -134,9 +139,7 @@ namespace PasswordManager
             HoveredBackground.Visibility = HoveredIcon.Visibility = Visibility.Visible;
             OpenedSidebar.Visibility = Visibility.Hidden;
             Sidebar.Visibility = Visibility.Hidden;
-            isSidebarOpened = false;
             openedMenuTaskbarIcon.Visibility = Visibility.Hidden;
-            isMenuOpened = false;
 
             //--------------------------------------------------------Z-Indicees---------------------------------------------------------------//
             Panel.SetZIndex(loginsList, 0);
@@ -196,21 +199,16 @@ namespace PasswordManager
 
         private void SaveElementButton_Click(object sender, RoutedEventArgs e)
         {
+            bool thereIsNoErrors = false;
 
+            titleElement.checkIfHasNoErrors(); websiteElement.checkIfHasNoErrors(); loginElement.checkIfHasNoErrors(); passwordElement.checkIfHasNoErrors();
+           
 
-
-
-
-
-
-
-
-
-
-
-
-            ElementInfoPanel.Visibility = Visibility.Hidden;
-            AddNewElementButton.Visibility = Visibility.Visible;
+            if (thereIsNoErrors)
+            {
+                ElementInfoPanel.Visibility = Visibility.Hidden;
+                AddNewElementButton.Visibility = Visibility.Visible;
+            }
         }
 
         private void CancelElementButton_Click(object sender, RoutedEventArgs e)
@@ -347,6 +345,46 @@ namespace PasswordManager
             ElementInfoPanel.Visibility = Visibility.Visible;
         }
 
+        private void websiteTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            websiteElement.select();
+        }
+
+        private void websiteTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            websiteElement.unselect();
+        }
+
+        private void loginTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            loginElement.select();
+        }
+
+        private void loginTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            loginElement.unselect();
+        }
+
+        private void passwordTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            passwordElement.select();
+        }
+
+        private void passwordTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            passwordElement.unselect();
+        }
+
+        private void titleTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            titleElement.select();
+        }
+
+        private void titleTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            titleElement.unselect();
+        }
+
         private void OpenMenuButton_MouseEnter(object sender, MouseEventArgs e)
         {
             openedMenuTaskbarIcon.Visibility = Visibility.Visible;
@@ -363,6 +401,5 @@ namespace PasswordManager
             children[length - 2].Visibility = Visibility.Visible;
             children[length - 3].Visibility = Visibility.Visible;
         }
-
     }
 }

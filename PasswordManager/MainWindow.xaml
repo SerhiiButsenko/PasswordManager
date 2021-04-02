@@ -8,32 +8,49 @@
         Title="Password Manager" Height="600" Width="800" Background="#34495e">
     <Window.Resources>
 
-        <Style TargetType="TextBox" x:Key="TextBoxRoundedCorners">
-            <Setter Property="Width" Value="225"></Setter>
-            <Setter Property="Height" Value="40"></Setter>
-            <Setter Property="Foreground" Value="#000"/>
-            <Setter Property="FontWeight" Value="Normal" />
-            <Setter Property="FontSize" Value="14"></Setter>
+        <Style TargetType="TextBox" x:Key="errorTextBox">
+            <Setter Property="Width" Value="200"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="12"></Setter>
             <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Top"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Border x:Name="border" CornerRadius="3" BorderBrush="#336ca6" BorderThickness="2" Background="#FAFAFA">
+                    <ControlTemplate x:Name="targetTextBox" TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" CornerRadius="3" BorderBrush="#FF5F5F" BorderThickness="2" Background="#FAFAFA">
+                            <Grid Width="200" Height="30">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="165"/>
+                                    <ColumnDefinition Width="35"/>
+                                </Grid.ColumnDefinitions>
+                                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                <Image Grid.Column="1" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 0, 0, 2" Source="/Images/InterfaceIcons/error.png" ></Image>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox" x:Key="normalTextBox">
+            <Setter Property="Width" Value="200"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="Foreground" Value="#000"/>
+            <Setter Property="FontSize" Value="13"></Setter>
+            <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate x:Name="targetTextBox" TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="#FAFAFA">
                             <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                         </Border>
-                       <!-- <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
-                                <Setter Property="Foreground" Value="Red" />
-
-                            </Trigger>
-                            <Trigger Property="IsFocused" Value="true">
-                                <Setter Property="Foreground" Value="Blue" />
-                                <Setter Property="BorderBrush" TargetName="border" Value="Blue"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers> -->
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -62,12 +79,22 @@
             <Setter Property="Cursor" Value="Hand"></Setter>
         </Style>
 
-        <Style TargetType="TextBlock" x:Key="Label">
+        <Style TargetType="TextBlock" x:Key="textBoxLabel">
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
             <Setter Property="FontStyle" Value="Normal"></Setter>
-            <Setter Property="FontFamily" Value="/Roboto/Roboto-Medium.ttf #Roboto"></Setter>
+            <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="selectedTextBoxLabel">
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontStyle" Value="Normal"></Setter>
+            <Setter Property="FontFamily" Value="/Roboto/Roboto-Bold.ttf #Roboto"></Setter>
         </Style>
 
         <Style TargetType="Button" x:Key="BlueButton">
@@ -163,22 +190,6 @@
                 </Canvas>
             </Border>
         </DataTemplate>
-
-        <!--  <ControlTemplate x:Key="ButtonBlue" TargetType="Button">
-            <Border Background="#336ca6" BorderBrush="#336ca6" BorderThickness="0.5" CornerRadius="4"
-                    Cursor="Hand">
-                <ContentControl Width="25" HorizontalAlignment="Right" Content="{TemplateBinding Content}" Cursor="Hand" Foreground="White"
-                                 VerticalAlignment="Center" HorizontalContentAlignment="Center" FontFamily="/Roboto/Roboto-Regular.ttf #Roboto" FontSize="14" />
-            </Border>
-        </ControlTemplate> -->
-
-        <!-- <ControlTemplate x:Key="GrayButton" TargetType="Button">
-            <Border Background="White" BorderBrush="Black" BorderThickness="0.5" CornerRadius="4"
-                    Cursor="Hand">
-                <ContentControl Width="25" HorizontalAlignment="Left" Content="{TemplateBinding Content}" Cursor="Hand" Foreground="Black"
-                                VerticalAlignment="Center" FontFamily="/Roboto/Roboto-Regular.ttf #Roboto" FontSize="12" FontWeight="UltraBold"/>
-            </Border>
-        </ControlTemplate> -->
     </Window.Resources>
 
 
@@ -204,31 +215,28 @@
         <!--  <StackPanel x:Name="MenuOpenedCoverPanel" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" Width="600" HorizontalAlignment="Right" Background="Transparent" /> -->
 
         <StackPanel x:Name="searchField" Grid.Column ="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="280" Height="35">
-           
+            <TextBox Width="250" HorizontalAlignment="Left" Height="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="dasdad" Foreground="White" Cursor="IBeam" FontSize="14">
+                <TextBox.Template>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" CornerRadius="3" BorderBrush="White" BorderThickness="2" Background="Transparent">
+                            <Grid Width="250" Height="35">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="215"/>
+                                    <ColumnDefinition Width="35"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35"/>
+                                </Grid.RowDefinitions>
 
-                <TextBox Width="250" HorizontalAlignment="Left" Height="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="dasdad" Foreground="White" Cursor="IBeam" FontSize="14">
-                    <TextBox.Template>
-                        <ControlTemplate TargetType="{x:Type TextBox}">
-                            <Border x:Name="border" CornerRadius="3" BorderBrush="White" BorderThickness="2" Background="Transparent">
-                                <Grid Width="250" Height="35">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="215"/>
-                                        <ColumnDefinition Width="35"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="35"/>
-                                    </Grid.RowDefinitions>
-
-                                     <ScrollViewer Grid.Column="0" Height="35" Foreground="White" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                                     <Border Grid.Column="1" Width="35" HorizontalAlignment="Right" CornerRadius="0.5" Background="#336ca6" Cursor="Hand">
-                                        <Image Width="20" Height="25" Source="/Images/InterfaceIcons/searchLoupe.png"/>
-                                    </Border>
-                                </Grid>
-                            </Border>
-                        </ControlTemplate>
-                    </TextBox.Template>
-                </TextBox>
-           
+                                <ScrollViewer Grid.Column="0" Height="35" Foreground="White" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                <Border Grid.Column="1" Width="35" HorizontalAlignment="Right" CornerRadius="0.5" Background="#336ca6" Cursor="Hand">
+                                    <Image Width="20" Height="25" Source="/Images/InterfaceIcons/searchLoupe.png"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </TextBox.Template>
+            </TextBox>
         </StackPanel>
       
         <ItemsControl x:Name="Sidebar" Grid.RowSpan="3"  Padding="0, 10, 0, 0" Background="White"
@@ -328,16 +336,16 @@
         </ItemsControl>
 
         <Border x:Name="ElementInfoPanel" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" HorizontalAlignment="Right" VerticalAlignment="Top" BorderThickness="1" BorderBrush="White">
-            <StackPanel Height="515" Background="White" Width="275">
-                <Grid Height="515" Width="275">
+            <StackPanel Height="510" Background="White" Width="250">
+                <Grid x:Name="saveElementGrid" Height="515" Width="250">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="120*"/>
                         <RowDefinition Height="90*"/>
-                        <RowDefinition Height="90*"/>
-                        <RowDefinition Height="90*"/>
-                        <RowDefinition Height="90*"/>
-                        <RowDefinition Height="145*"/>
-                        <RowDefinition Height="55*"/>
+                        <RowDefinition Height="75*"/>
+                        <RowDefinition Height="75*"/>
+                        <RowDefinition Height="75*"/>
+                        <RowDefinition Height="75*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="50*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="17*"/>
@@ -352,48 +360,50 @@
                             MouseLeftButtonDown="Polygon_MouseLeftButtonDown"/>
                         </StackPanel>
                     </Border>
-
-                    <StackPanel x:Name="ElementImagePanel" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    
+                    <StackPanel x:Name="ElementImagePanel" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                         <Grid>
-                            <Ellipse Width="70" Height="70" StrokeThickness="2" Stroke="#336ca6" Fill="#FAFAFA"/>
-                            <Ellipse Width="37" Height="35">
+                            <Ellipse Width="60" Height="60" StrokeThickness="2" Stroke="#336ca6" Fill="#FAFAFA"/>
+                            <Ellipse Width="30" Height="30">
                                 <Ellipse.Fill>
                                     <ImageBrush ImageSource="Images/InterfaceIcons/newPlus.png" Stretch="Fill"/>
                                 </Ellipse.Fill>
                             </Ellipse>
                         </Grid>
-                        <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 5, 0, 0" Style="{StaticResource Label}" Text="Image" />
+                        <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 5, 0, 0" Style="{StaticResource textBoxLabel}" Text="Image" />
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" >
-                        <TextBlock Style="{StaticResource Label}" Text="Title*"/>
-                        <TextBox Style="{StaticResource TextBoxRoundedCorners}" Margin="0, 3, 0, 0" />
+                   
+                   <StackPanel x:Name="titleStackPanel" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource textBoxLabel}" Text="Title*"/>
+                        <TextBox BorderBrush="#336ca6" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus"/>
+                   </StackPanel>
+
+                    <StackPanel x:Name="websiteStackPanel" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource textBoxLabel}" Text="Website-Address*"/>
+                        <TextBox BorderBrush="#336ca6" Style="{StaticResource normalTextBox}"  Margin="0, 3, 0, 3" GotFocus="websiteTextBox_GotFocus" LostFocus="websiteTextBox_LostFocus"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" >
-                        <TextBlock Style="{StaticResource Label}" Text="Website-Address*"/>
-                        <TextBox  Style="{StaticResource TextBoxRoundedCorners}"  Margin="0, 3, 0, 0"/>
+                    <StackPanel x:Name="loginStackPanel" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource textBoxLabel}" Text="Login*"/>
+                        <TextBox BorderBrush="#336ca6" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3" GotFocus="loginTextBox_GotFocus" LostFocus="loginTextBox_LostFocus" />
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center">
-                        <TextBlock Style="{StaticResource Label}" Text="Login*"/>
-                        <TextBox Style="{StaticResource TextBoxRoundedCorners}" Margin="0, 3, 0, 0" />
+
+                    <StackPanel x:Name="passwordStackPanel" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource textBoxLabel}" Text="Password*"/>
+                        <TextBox BorderBrush="#336ca6" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3" GotFocus="passwordTextBox_GotFocus" LostFocus="passwordTextBox_LostFocus" />
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Center">
-                        <TextBlock Style="{StaticResource Label}" Text="Password*"/>
-                        <TextBox Style="{StaticResource TextBoxRoundedCorners}" Margin="0, 3, 0, 0" />
+                    <StackPanel x:Name="commentStackPanel" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource textBoxLabel}" Text="Comment"/>
+                        <TextBox VerticalContentAlignment="Top" Style="{StaticResource normalTextBox}" Padding="0, 6, 0, 0" Height="80" Margin="0, 3, 0, 0"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" HorizontalAlignment="Center">
-                        <TextBlock Style="{StaticResource Label}" Text="Comment"/>
-                        <TextBox VerticalContentAlignment="Top" Padding="0, 6, 0, 0" Style="{StaticResource TextBoxRoundedCorners}" Height="80" Margin="0, 3, 0, 0"/>
-                    </StackPanel>
 
-                    
-                    <Button x:Name="SaveElementButton" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource BlueButton}"
+                    <Button x:Name="SaveElementButton" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource BlueButton}"
                            Content="Save" Click="SaveElementButton_Click"/>
-                    <Button x:Name="CancelElementButton" Grid.Column="3" Grid.Row="6" Style="{StaticResource GreyButton}" HorizontalAlignment="Left" VerticalAlignment="Top"
+                    <Button x:Name="CancelElementButton" Grid.Column="3" Grid.Row="6" Style="{StaticResource GreyButton}" HorizontalAlignment="Left" VerticalAlignment="Center"
                             Content="Cancel" Click="CancelElementButton_Click"/>
                    
                 </Grid>
