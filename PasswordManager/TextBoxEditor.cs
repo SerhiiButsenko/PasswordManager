@@ -3,27 +3,17 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 
+
 namespace PasswordManager
 {
-    public class TextBoxEditor
+    public class TextBoxEditor : TextContainerEditor
     {
-
-        private StackPanel stackPanel;
-        private TextBox textBox;
-        private TextBlock errorMessage, label;
-        private TextBoxState state;
-        private bool isFieldRequired;
-        
-        public TextBoxEditor(StackPanel stackPanel, bool isFieldRequired)
+        public TextBoxEditor(StackPanel stackPanel, bool isFieldRequired) : base(stackPanel, isFieldRequired)
         {
-            this.stackPanel = stackPanel;
-            this.label = stackPanel.Children[0] as TextBlock;
-            this.textBox = stackPanel.Children[1] as TextBox;
-            state = TextBoxState.NotSelected;
-            this.isFieldRequired = isFieldRequired;
+            this.textContainer = stackPanel.Children[1] as TextBox;
             this.errorMessage = new TextBlock
             {
-                Text = "Please fill in this field",
+                Text = "",
                 Style = (Style)Application.Current.MainWindow.Resources["selectedTextBoxLabel"],
                 Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0))
             };
@@ -31,64 +21,53 @@ namespace PasswordManager
 
         public TextBox BindedTextBox
         {
-            get { return textBox; }
+            get { return (textContainer as TextBox); }
         }
 
-        public TextBoxState State
+        public void selectTextBox()
         {
-            get { return state; }
-        }
+            textContainer.Style = (Style)Application.Current.MainWindow.Resources["normalTextBox"];
+            textContainer.BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            textContainer.Background = new SolidColorBrush(Color.FromRgb(241, 241, 241));
 
-        private void clearErrorMessage()
-        {
-            errorMessage.Text = "";
-        }
-
-        private void setErrorMessage(string message)
-        {
-            errorMessage.Text = message;
-        }
-
-        public void select()
-        {
-            textBox.Style = (Style)Application.Current.MainWindow.Resources["normalTextBox"];
-            textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            textBox.Background = new SolidColorBrush(Color.FromRgb(241, 241, 241));
             label.Style = (Style) Application.Current.MainWindow.Resources["selectedTextBoxLabel"];
             label.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            clearErrorMessage();
 
+            clearErrorMessage();
             if (stackPanel.Children.Contains(this.errorMessage))
                 stackPanel.Children.Remove(this.errorMessage);
-            state = TextBoxState.Selected;
+            state = TextContainerState.Selected;
         }
 
-        public void unselect()
+        public void unselectTextBox()
         {
-            textBox.Style = (Style)Application.Current.MainWindow.Resources["normalTextBox"];
-            textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(51, 108, 166));
-            textBox.Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
+            textContainer.Style = (Style)Application.Current.MainWindow.Resources["normalTextBox"];
+            textContainer.BorderBrush = new SolidColorBrush(Color.FromRgb(51, 108, 166));
+            textContainer.Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
+
             label.Style = (Style)Application.Current.MainWindow.Resources["textBoxLabel"];
             label.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            state = TextBoxState.NotSelected;
+
+            state = TextContainerState.NotSelected;
         }
 
         public void displayError(string errorMessage)
         {
-            textBox.Style = (Style)Application.Current.MainWindow.Resources["errorTextBox"];
+            textContainer.Style = (Style)Application.Current.MainWindow.Resources["errorTextBox"];
+
             label.Style = (Style)Application.Current.MainWindow.Resources["selectedTextBoxLabel"];
             label.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+            
             setErrorMessage(errorMessage);
-
             if (!stackPanel.Children.Contains(this.errorMessage))
-            stackPanel.Children.Add(this.errorMessage); 
+                stackPanel.Children.Add(this.errorMessage); 
         }
 
         public string checkIfHasNoErrors()
         {
             if (isFieldRequired)
             {
-                if (textBox.Text != "")
+                if ((textContainer as TextBox).Text != "")
                     return "";
                 else
                     return "Please fill in this field";

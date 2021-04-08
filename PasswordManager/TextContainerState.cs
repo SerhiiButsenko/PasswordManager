@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PasswordManager
 {
-    public enum TextBoxState
+    public enum TextContainerState
     {
         Selected,
         NotSelected,

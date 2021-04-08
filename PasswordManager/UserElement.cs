@@ -8,7 +8,7 @@ namespace PasswordManager
     {
         private string title;
         private string comment;
-        private string imageSource;
+        private Uri imageSource;
         private int gridRow;
         private int gridColumn;
 
@@ -18,7 +18,7 @@ namespace PasswordManager
             this.title = title;
         }
 
-        public UserElement(string title, string comment, string imageSource)
+        public UserElement(string title, string comment, Uri imageSource)
         {
             this.title = title;
             this.comment = comment;
@@ -26,7 +26,7 @@ namespace PasswordManager
             this.gridRow = this.gridColumn = -1;
         }
 
-        public UserElement(string title, string comment, string imageSource, int gridRow, int gridColumn)
+        public UserElement(string title, string comment, Uri imageSource, int gridRow, int gridColumn)
         {
             this.title = title;
             this.comment = comment;
@@ -59,7 +59,7 @@ namespace PasswordManager
             set { comment = value; }
         }
 
-        public string ImageSource
+        public Uri ImageSource
         {
             get { return imageSource; }
             set { imageSource = value; }

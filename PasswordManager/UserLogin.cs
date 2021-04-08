@@ -22,7 +22,7 @@ namespace PasswordManager
             loginID = curId++;
         }
 
-        public UserLogin(string title, string websiteUrl, string login, string password, string comment, string imageSource) 
+        public UserLogin(string title, string websiteUrl, string login, string password, string comment, Uri imageSource) 
             : base(title, comment, imageSource)
         {
             this.websiteUrl = websiteUrl;
@@ -31,7 +31,7 @@ namespace PasswordManager
             loginID = curId++;
         }
 
-        public UserLogin(string title, string websiteUrl, string login, string password, string comment, string imageSource, int gridRow, int gridColumn)
+        public UserLogin(string title, string websiteUrl, string login, string password, string comment, Uri imageSource, int gridRow, int gridColumn)
             : base(title, comment, imageSource, gridRow, gridColumn)
         {
             this.websiteUrl = websiteUrl;

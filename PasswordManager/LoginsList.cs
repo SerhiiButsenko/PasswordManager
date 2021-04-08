@@ -20,11 +20,14 @@ namespace PasswordManager
         public LoginsList(ItemsControl list, StackPanel navigationPanel)
         {
             this.list = list;
-            List<UserLogin> allLogins = list.ItemsSource as List<UserLogin>;
-            pages = new List<LoginsListPage>();
-            for (int i = 0; i < allLogins.Count; i += 8)
-                pages.Add(new LoginsListPage(allLogins.GetRange(i, Math.Min(8, allLogins.Count - i)).ToArray(), i / 8));
 
+            //List<UserLogin> allLogins = list.ItemsSource as List<UserLogin>;
+            // for (int i = 0; i < allLogins.Count; i += 8)
+            //   pages.Add(new LoginsListPage(allLogins.GetRange(i, Math.Min(8, allLogins.Count - i)).ToArray(), i / 8));
+
+            pages = new List<LoginsListPage>();
+            pages.Add(new LoginsListPage(0));
+          
             this.navigationPanel = navigationPanel;
             this.currentPage = pages[0];
             this.firstPageArrow = (navigationPanel.Children[0] as Grid).Children[0] as Image;
@@ -32,7 +35,7 @@ namespace PasswordManager
             this.text = (navigationPanel.Children[0] as Grid).Children[2] as TextBlock;
             this.rightArrow = (navigationPanel.Children[0] as Grid).Children[3] as Image;
             this.lastPageArrow = (navigationPanel.Children[0] as Grid).Children[4] as Image;
-            LoadCurrentPage();
+          //  LoadCurrentPage();
         }
 
        private void LoadCurrentPage()
@@ -128,11 +131,12 @@ namespace PasswordManager
         public void addNewLogin(UserLogin newLogin)
         {
             if (pages[pages.Count - 1].NumberOfElements == 8)
-            {
-                pages.Add(new LoginsListPage(new UserLogin[8], pages.Count));
-                currentPage = pages[pages.Count - 1];
-            }
+                pages.Add(new LoginsListPage(pages.Count));
+           
+            
             pages[pages.Count - 1].addNewElement(newLogin);
+            currentPage = pages[pages.Count - 1];
+
             LoadCurrentPage();
         }
 

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Password Manager" Height="600" Width="800" Background="#34495e">
     <Window.Resources>
-
+        
         <Style TargetType="TextBox" x:Key="errorTextBox">
             <Setter Property="Width" Value="200"></Setter>
             <Setter Property="Height" Value="30"></Setter>
@@ -37,23 +37,44 @@
             </Setter>
         </Style>
 
-        <Style TargetType="TextBox" x:Key="normalTextBox">
-            <Setter Property="Width" Value="200"></Setter>
-            <Setter Property="Height" Value="30"></Setter>
-            <Setter Property="Foreground" Value="#000"/>
-            <Setter Property="FontSize" Value="13"></Setter>
-            <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
-            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalAlignment" Value="Top"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type TextBox}">
-                        <Border x:Name="border" CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
-                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+        <Style x:Key="commonStyle">
+            <Setter Property="Control.Width" Value="200"></Setter>
+            <Setter Property="Control.Height" Value="30"></Setter>
+            <Setter Property="Control.Foreground" Value="#000"/>
+            <Setter Property="Control.FontSize" Value="13"></Setter>
+            <Setter Property="Control.FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
+            <Setter Property="Control.VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Control.VerticalAlignment" Value="Top"></Setter>
+        </Style>
+
+        <ControlTemplate x:Key="normalTextBoxTemplate">
+            <Border x:Name="border" CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+            </Border>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="textContainerTemplate">
+            <Border CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="#FAFAFA">
+                <Grid Width="200" Height="30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="165"/>
+                        <ColumnDefinition Width="35"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <ScrollViewer x:Name="PART_ContentHost" Grid.Column="0" Grid.ColumnSpan="{TemplateBinding Property=Grid.ColumnSpan}" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    <Image Grid.Column="1" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 0, 0, 2" />
+                    <!-- Source="/Images/InterfaceIcons/error.png" -->
+                </Grid>
+            </Border>
+        </ControlTemplate>
+
+        <Style x:Key="normalTextBox" TargetType="TextBox" BasedOn="{StaticResource commonStyle}">
+        </Style>
+
+        <Style x:Key="passwordTextBox" TargetType="PasswordBox" BasedOn="{StaticResource commonStyle}">
         </Style>
 
         <Style TargetType="Image" x:Key="SavedElementOperation">
@@ -88,12 +109,7 @@
             <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
         </Style>
 
-        <Style TargetType="TextBlock" x:Key="selectedTextBoxLabel">
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Foreground" Value="Black"></Setter>
-            <Setter Property="FontSize" Value="12"></Setter>
-            <Setter Property="FontStyle" Value="Normal"></Setter>
+        <Style x:Key="selectedTextBoxLabel" TargetType="TextBlock" BasedOn="{StaticResource textBoxLabel}">
             <Setter Property="FontFamily" Value="/Roboto/Roboto-Bold.ttf #Roboto"></Setter>
         </Style>
 
@@ -363,38 +379,37 @@
                     
                     <StackPanel x:Name="ElementImagePanel" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                         <Grid>
-                            <Ellipse Width="60" Height="60" StrokeThickness="2" Stroke="#336ca6" Fill="#FAFAFA"/>
-                            <Ellipse Width="30" Height="30">
+                            <Ellipse x:Name="imageBackgroundEllipse" Width="60" Height="60" Stretch="Fill" StrokeThickness="2" Stroke="#336ca6" Fill="#FAFAFA" Cursor="Hand" MouseEnter="ImageEllipse_MouseEnter" MouseLeave="Ellipse_MouseLeave" MouseLeftButtonDown="imageBackgroundEllipse_MouseLeftButtonDown" />
+                            <Ellipse x:Name="imageIconEllipse" Width="30" Height="30" Stretch="Fill" Cursor="Hand" MouseEnter="ImageEllipse_MouseEnter" MouseLeftButtonDown="imageBackgroundEllipse_MouseLeftButtonDown">
                                 <Ellipse.Fill>
-                                    <ImageBrush ImageSource="Images/InterfaceIcons/newPlus.png" Stretch="Fill"/>
+                                    <ImageBrush ImageSource="Images/InterfaceIcons/newPlus.png" Stretch="Fill" />
                                 </Ellipse.Fill>
                             </Ellipse>
                         </Grid>
                         <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 5, 0, 0" Style="{StaticResource textBoxLabel}" Text="Image" />
                     </StackPanel>
-
                    
                    <StackPanel x:Name="titleStackPanel" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Title*"/>
-                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3" 
+                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3" Template="{StaticResource textContainerTemplate}" 
                                  GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave" />
                    </StackPanel>
 
                     <StackPanel x:Name="websiteStackPanel" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Website-Address*"/>
-                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}"  Margin="0, 3, 0, 3"
+                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}"  Margin="0, 3, 0, 3"  Template="{StaticResource textContainerTemplate}"
                                  GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave"/>
                     </StackPanel>
 
                     <StackPanel x:Name="loginStackPanel" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Login*"/>
-                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3"
+                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3"  Template="{StaticResource textContainerTemplate}"
                                  GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave"/>
                     </StackPanel>
 
                     <StackPanel x:Name="passwordStackPanel" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Password*"/>
-                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3"
+                        <PasswordBox BorderBrush="#336ca6" Background="#FAFAFA" Margin="0, 3, 0, 3" Style="{StaticResource passwordTextBox}" Template="{StaticResource textContainerTemplate}"
                                  GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave" />
                     </StackPanel>
                     

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -22,9 +24,13 @@ namespace PasswordManager
 
         private Ellipse HoveredBackground, HoveredIcon;
 
-        TextBoxEditor[] formElements;
+        TextBoxEditor titleEditor, websiteEditor, loginEditor;
 
-        bool richTextBoxSelected;
+        PasswordBoxEditor passwordEditor;
+
+        bool richTextBoxSelected, filledWithImage;
+
+        Uri currentElementInfoImage;
 
 
         private void InitializeEllipses()
@@ -44,55 +50,73 @@ namespace PasswordManager
         {
             InitializeComponent();
             InitializeEllipses();
-            
-            Logins = new List<UserLogin>
-            {
-                new UserLogin("Facebook", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion", 
-                "This is my Facebook password", "/Images/LoginIcons/0.png", 0, 0 ),
-                 new UserLogin("SoundCloud", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/1.png", 0, 1 ),
-                  new UserLogin("YouTube", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/2.png", 0, 2 ),
-                   new UserLogin("Twitter", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/3.png", 0, 3 ),
-                    new UserLogin("Instagram", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/4.png", 1, 0 ),
-                     new UserLogin("Spotify", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/spotify.png", 1, 1 ),
-                      new UserLogin("LinkedIn", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/6.png", 1, 2 ),
-                       new UserLogin("TikTok", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/7.png", 1, 3 ),
 
-                          new UserLogin("TikTok", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/7.png", 0, 0 ),
-                            new UserLogin("LinkedIn", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/6.png", 0, 1),
-                            new UserLogin("Spotify", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/spotify.png", 0, 2 ),
-                             new UserLogin("YouTube", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/2.png", 0, 3 ),
-                        new UserLogin("Facebook", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/0.png", 1, 0),
-                 new UserLogin("SoundCloud", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/1.png", 1, 1 ),
-                   new UserLogin("Twitter", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/3.png", 1, 2 ),
-                    new UserLogin("Instagram", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/4.png", 1, 3 ),
-                     
-                    
-                     new UserLogin("Spotify", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/spotify.png", 0, 0 ),
-                      new UserLogin("LinkedIn", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/6.png", 0, 1 ),
-                       new UserLogin("TikTok", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/7.png", 0, 2 ),
-                         new UserLogin("YouTube", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
-                "This is my Facebook password", "/Images/LoginIcons/2.png", 0, 3 ),
-            };
-            loginsList.ItemsSource = Logins;
             ListOfLogins = new LoginsList(loginsList, changePagePanel);
+            
+            ListOfLogins.addNewLogin(new UserLogin("Facebook", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/0.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("SoundCloud", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+            "This is my Facebook password", new Uri("/Images/LoginIcons/1.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("YouTube", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/2.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("Twitter", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/3.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("Instagram", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/4.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("Spotify", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/spotify.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("LinkedIn", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/6.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("TikTok", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/7.png", UriKind.Relative)));
+
+
+            ListOfLogins.addNewLogin(new UserLogin("TikTok", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/7.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("LinkedIn", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/6.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("Spotify", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/spotify.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("YouTube", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/2.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("Facebook", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password",new Uri( "/Images/LoginIcons/0.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("SoundCloud", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/1.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("Twitter", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/3.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("Instagram", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/4.png", UriKind.Relative)));
+
+
+            ListOfLogins.addNewLogin(new UserLogin("Spotify", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/spotify.png", UriKind.Relative)));  
+
+           ListOfLogins.addNewLogin(new UserLogin("LinkedIn", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/6.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("TikTok", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/7.png", UriKind.Relative)));
+
+            ListOfLogins.addNewLogin(new UserLogin("YouTube", "www.facebook.com", "butsenko2001@gmail.com", "08122001Butsilion",
+                "This is my Facebook password", new Uri("/Images/LoginIcons/2.png", UriKind.Relative))); 
+
+            ListOfLogins.goToFirstPage();
+
 
             SideBarImages = new List<MenuItem>
             {
@@ -120,16 +144,20 @@ namespace PasswordManager
             };
             OpenedSidebar.ItemsSource = OpenedBarImages;
 
-            formElements = new TextBoxEditor[4];
-            formElements[0] = new TextBoxEditor(titleStackPanel, true);
-            formElements[0].BindedTextBox.Tag = formElements[0];
-            formElements[1] = new TextBoxEditor(websiteStackPanel, true);
-            formElements[1].BindedTextBox.Tag = formElements[1];
-            formElements[2] = new TextBoxEditor(loginStackPanel, true);
-            formElements[2].BindedTextBox.Tag = formElements[2];
-            formElements[3] = new TextBoxEditor(passwordStackPanel, true);
-            formElements[3].BindedTextBox.Tag = formElements[3];
+            titleEditor = new TextBoxEditor(titleStackPanel, true);
+            titleEditor.BindedTextBox.Tag = titleEditor;
+
+            websiteEditor = new TextBoxEditor(websiteStackPanel, true);
+            websiteEditor.BindedTextBox.Tag = websiteEditor;
+
+            loginEditor = new TextBoxEditor(loginStackPanel, true);
+            loginEditor.BindedTextBox.Tag = loginEditor;
+            passwordEditor = new PasswordBoxEditor(passwordStackPanel, true);
+            passwordEditor.BindedPasswordBox.Tag = passwordEditor;
+
             richTextBoxSelected = false;
+            filledWithImage = false;
+            currentElementInfoImage = null;
 
 
             //--------------------------------------------------------Visible Controls---------------------------------------------------------------//
@@ -157,6 +185,17 @@ namespace PasswordManager
             Panel.SetZIndex(Sidebar, 3);
             Panel.SetZIndex(OpenedSidebar, 4);
             Panel.SetZIndex(openedMenuTaskbarIcon, 3);
+        }
+
+        private UserLogin readUserLogin()
+        {
+            string title = (titleStackPanel.Children[1] as TextBox).Text;
+            string website = (websiteStackPanel.Children[1] as TextBox).Text;
+            string login = (loginStackPanel.Children[1] as TextBox).Text;
+            string password = (passwordStackPanel.Children[1] as TextBox).Text;
+            RichTextBox commentBox = (commentStackPanel.Children[1] as RichTextBox);
+            string comment = new TextRange(commentBox.Document.ContentStart, commentBox.Document.ContentEnd).Text;
+            return new UserLogin(title, website, login, password, comment, currentElementInfoImage);
         }
 
         private void HoveredBackground_Loaded(object sender, RoutedEventArgs e)
@@ -207,7 +246,7 @@ namespace PasswordManager
 
         private void SaveElementButton_Click(object sender, RoutedEventArgs e)
         {
-            bool thereIsNoErrors = true;
+           /* bool thereIsNoErrors = true;
 
             foreach(TextBoxEditor txtBox in formElements)
             {
@@ -221,9 +260,11 @@ namespace PasswordManager
 
             if (thereIsNoErrors)
             {
+                ListOfLogins.addNewLogin(readUserLogin());
+                ListOfLogins.goToLastPage();
                 ElementInfoPanel.Visibility = Visibility.Hidden;
                 AddNewElementButton.Visibility = Visibility.Visible;
-            }
+            } */
         }
 
         private void CancelElementButton_Click(object sender, RoutedEventArgs e)
@@ -358,20 +399,18 @@ namespace PasswordManager
         private void AddNewElementButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ElementInfoPanel.Visibility = Visibility.Visible;
-        }
-
-        
+        }   
 
         private void TextBox_MouseEnter(object sender, MouseEventArgs e)
         {
-            (sender as TextBox).Background = new SolidColorBrush(Color.FromRgb(241, 241, 241));
+            (sender as Control).Background = new SolidColorBrush(Color.FromRgb(241, 241, 241));
         }
 
         private void TextBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            TextBox currentTextBox = sender as TextBox;
-            if((currentTextBox.Tag as TextBoxEditor).State != TextBoxState.Selected)
-            currentTextBox.Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
+            Control currentTextContainer = sender as Control;
+            if((currentTextContainer.Tag as TextContainerEditor).State != TextContainerState.Selected)
+                currentTextContainer.Background = new SolidColorBrush(Color.FromRgb(250, 250, 250)); 
         }
 
         private void RichTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -403,32 +442,66 @@ namespace PasswordManager
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            foreach (TextBoxEditor txtBox in formElements)
-            {
-                if (txtBox.BindedTextBox == (sender as TextBox))
-                {
-                    txtBox.select();
-                    break;
-                }
-            }    
+            TextContainerEditor focusedElement = (sender as Control).Tag as TextContainerEditor;
+            if (focusedElement == titleEditor)
+                titleEditor.selectTextBox();
+            else if (focusedElement == websiteEditor)
+                websiteEditor.selectTextBox();
+            else if (focusedElement == loginEditor)
+                loginEditor.selectTextBox();           
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            foreach (TextBoxEditor txtBox in formElements)
-            {
-                if (txtBox.BindedTextBox == (sender as TextBox))
-                {
-                    txtBox.unselect();
-                    break;
-                }
-            }
+            TextContainerEditor focusedElement = (sender as Control).Tag as TextContainerEditor;
+            if (focusedElement == titleEditor)
+                titleEditor.unselectTextBox();
+            else if (focusedElement == websiteEditor)
+                websiteEditor.unselectTextBox();
+            else if (focusedElement == loginEditor)
+                loginEditor.unselectTextBox();
         }
 
         private void OpenMenuButton_MouseEnter(object sender, MouseEventArgs e)
         {
             openedMenuTaskbarIcon.Visibility = Visibility.Visible;
             Sidebar.Visibility = Visibility.Visible;
+        }
+
+        private void ImageEllipse_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if(!filledWithImage)
+            imageBackgroundEllipse.Fill = new SolidColorBrush(Color.FromRgb(241, 241, 241));
+            //(ElementImagePanel.Children[1] as TextBlock).Style = (Style)Resources["selectedTextBoxLabel"];
+        }
+
+        private void Ellipse_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if(!filledWithImage)
+            imageBackgroundEllipse.Fill = new SolidColorBrush(Color.FromRgb(250, 250, 250));
+            //(ElementImagePanel.Children[1] as TextBlock).Style = (Style)Resources["textBoxLabel"];
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+           // (formElements[3] as TE).changeText();
+            
+        }
+
+        private void imageBackgroundEllipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            OpenFileDialog dialogWindow = new OpenFileDialog();
+            dialogWindow.Title = "Choose an image";
+            dialogWindow.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+            if(dialogWindow.ShowDialog() == true)
+            {
+                currentElementInfoImage = new Uri(dialogWindow.FileName, UriKind.Absolute);
+                BitmapImage img = new BitmapImage(currentElementInfoImage);
+                imageIconEllipse.Fill = null;
+                ImageBrush newImage = new ImageBrush(img); newImage.Stretch = Stretch.Fill; 
+                imageBackgroundEllipse.Fill = newImage;
+                filledWithImage = true;
+            }
         }
 
         private void ElementImageEllipse_MouseEnter(object sender, MouseEventArgs e)

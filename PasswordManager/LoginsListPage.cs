@@ -9,35 +9,29 @@ namespace PasswordManager
     public class LoginsListPage
     {
         private int pageNumber;
-        private UserLogin[] elements;
+        private List<UserLogin> elements;
         private int numberOfElements;
 
-        public LoginsListPage(UserLogin[] elements, int pageNumber)
+        public LoginsListPage(int pageNumber)
         {
-            this.elements = elements;
             this.pageNumber = pageNumber;
+            this.elements = new List<UserLogin>();
             this.numberOfElements = 0;
         }
 
         public void addNewElement(UserLogin newLogin)
         {
-            if(numberOfElements == 0)
+            if(numberOfElements < 4)
             {
                 newLogin.GridRow = 0;
-                newLogin.GridColumn = 0;
-            } else if(numberOfElements > 0 && numberOfElements < 4)
-            {
-                newLogin.GridRow = 0;
-                newLogin.GridColumn = elements.Length;
-            } else if(numberOfElements == 4)
+                newLogin.GridColumn = numberOfElements;
+            } else 
             {
                 newLogin.GridRow = 1;
-                newLogin.GridColumn = 0;
-            } else if (numberOfElements > 4 && numberOfElements < 8)
-            {
-                newLogin.GridRow = 1;
-                newLogin.GridColumn = elements.Length - 4;
-            } 
+                newLogin.GridColumn = numberOfElements - 4;
+            }
+            elements.Add(newLogin);
+            numberOfElements++;
         }
 
         public int NumberOfElements
@@ -50,7 +44,7 @@ namespace PasswordManager
             get { return pageNumber; }
         }
 
-        public UserLogin[] Elements
+        public List<UserLogin> Elements
         {
             get { return elements; }
         }
