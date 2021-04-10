@@ -24,10 +24,6 @@ namespace PasswordManager
 
         private Ellipse HoveredBackground, HoveredIcon;
 
-        TextBoxEditor titleEditor, websiteEditor, loginEditor;
-
-        PasswordBoxEditor passwordEditor;
-
         bool richTextBoxSelected, filledWithImage;
 
         Uri currentElementInfoImage;
@@ -144,17 +140,6 @@ namespace PasswordManager
             };
             OpenedSidebar.ItemsSource = OpenedBarImages;
 
-            titleEditor = new TextBoxEditor(titleStackPanel, true);
-            titleEditor.BindedTextBox.Tag = titleEditor;
-
-            websiteEditor = new TextBoxEditor(websiteStackPanel, true);
-            websiteEditor.BindedTextBox.Tag = websiteEditor;
-
-            loginEditor = new TextBoxEditor(loginStackPanel, true);
-            loginEditor.BindedTextBox.Tag = loginEditor;
-            passwordEditor = new PasswordBoxEditor(passwordStackPanel, true);
-            passwordEditor.BindedPasswordBox.Tag = passwordEditor;
-
             richTextBoxSelected = false;
             filledWithImage = false;
             currentElementInfoImage = null;
@@ -187,16 +172,16 @@ namespace PasswordManager
             Panel.SetZIndex(openedMenuTaskbarIcon, 3);
         }
 
-        private UserLogin readUserLogin()
+      /*  private UserLogin readUserLogin()
         {
             string title = (titleStackPanel.Children[1] as TextBox).Text;
-            string website = (websiteStackPanel.Children[1] as TextBox).Text;
+            string website = (websiteStackPanel.Children[1] as TextBox).Text;  (titleStackPanel.Children[1] as TextBox).Text;
             string login = (loginStackPanel.Children[1] as TextBox).Text;
             string password = (passwordStackPanel.Children[1] as TextBox).Text;
             RichTextBox commentBox = (commentStackPanel.Children[1] as RichTextBox);
             string comment = new TextRange(commentBox.Document.ContentStart, commentBox.Document.ContentEnd).Text;
             return new UserLogin(title, website, login, password, comment, currentElementInfoImage);
-        }
+        } */
 
         private void HoveredBackground_Loaded(object sender, RoutedEventArgs e)
         {
@@ -246,19 +231,39 @@ namespace PasswordManager
 
         private void SaveElementButton_Click(object sender, RoutedEventArgs e)
         {
-           /* bool thereIsNoErrors = true;
+            bool thereIsNoErrors = true;
 
-            foreach(TextBoxEditor txtBox in formElements)
+            string errorMessage = "";
+
+            errorMessage = titleInputField.checkIfHasNoErrors();
+            if(errorMessage != "")
             {
-                string error = txtBox.checkIfHasNoErrors();
-                if(error != "")
-                {
-                    thereIsNoErrors = false;
-                    txtBox.displayError(error);
-                }
+                titleInputField.displayError(errorMessage);
+                titleInputField.ErrorMessage = errorMessage;
+                thereIsNoErrors = false;
+                errorMessage = "";
             }
 
-            if (thereIsNoErrors)
+            errorMessage = websiteInputField.checkIfHasNoErrors();
+            if (errorMessage != "")
+            {
+                websiteInputField.displayError(errorMessage);
+                websiteInputField.ErrorMessage = errorMessage;
+                thereIsNoErrors = false;
+                errorMessage = "";
+            }
+
+            errorMessage = loginInputField.checkIfHasNoErrors();
+            if (errorMessage != "")
+            {
+                loginInputField.displayError(errorMessage);
+                loginInputField.ErrorMessage = errorMessage;
+                thereIsNoErrors = false;
+                errorMessage = "";
+            }
+
+
+           /* if (thereIsNoErrors)
             {
                 ListOfLogins.addNewLogin(readUserLogin());
                 ListOfLogins.goToLastPage();
@@ -438,28 +443,6 @@ namespace PasswordManager
         {
             if(!richTextBoxSelected)
                 (sender as RichTextBox).Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
-        }
-
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            TextContainerEditor focusedElement = (sender as Control).Tag as TextContainerEditor;
-            if (focusedElement == titleEditor)
-                titleEditor.selectTextBox();
-            else if (focusedElement == websiteEditor)
-                websiteEditor.selectTextBox();
-            else if (focusedElement == loginEditor)
-                loginEditor.selectTextBox();           
-        }
-
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextContainerEditor focusedElement = (sender as Control).Tag as TextContainerEditor;
-            if (focusedElement == titleEditor)
-                titleEditor.unselectTextBox();
-            else if (focusedElement == websiteEditor)
-                websiteEditor.unselectTextBox();
-            else if (focusedElement == loginEditor)
-                loginEditor.unselectTextBox();
         }
 
         private void OpenMenuButton_MouseEnter(object sender, MouseEventArgs e)

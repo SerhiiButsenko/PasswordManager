@@ -376,7 +376,7 @@
                             MouseLeftButtonDown="Polygon_MouseLeftButtonDown"/>
                         </StackPanel>
                     </Border>
-                    
+
                     <StackPanel x:Name="ElementImagePanel" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                         <Grid>
                             <Ellipse x:Name="imageBackgroundEllipse" Width="60" Height="60" Stretch="Fill" StrokeThickness="2" Stroke="#336ca6" Fill="#FAFAFA" Cursor="Hand" MouseEnter="ImageEllipse_MouseEnter" MouseLeave="Ellipse_MouseLeave" MouseLeftButtonDown="imageBackgroundEllipse_MouseLeftButtonDown" />
@@ -388,29 +388,22 @@
                         </Grid>
                         <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 5, 0, 0" Style="{StaticResource textBoxLabel}" Text="Image" />
                     </StackPanel>
-                   
-                   <StackPanel x:Name="titleStackPanel" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource textBoxLabel}" Text="Title*"/>
-                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3" Template="{StaticResource textContainerTemplate}" 
-                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave" />
-                   </StackPanel>
 
-                    <StackPanel x:Name="websiteStackPanel" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <local:CustomInputField x:Name="titleInputField" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" InputFieldName="Title" IsFieldRequired="True"/>
+
+                    <local:CustomInputField x:Name="websiteInputField" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" InputFieldName="Website-Address" IsFieldRequired="True" />
+
+                    <local:CustomInputField x:Name="loginInputField" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" InputFieldName="Login" IsFieldRequired="True"/>
+
+                    <!-- <StackPanel x:Name="websiteStackPanel" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Website-Address*"/>
                         <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}"  Margin="0, 3, 0, 3"  Template="{StaticResource textContainerTemplate}"
                                  GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave"/>
-                    </StackPanel>
-
-                    <StackPanel x:Name="loginStackPanel" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource textBoxLabel}" Text="Login*"/>
-                        <TextBox BorderBrush="#336ca6" Background="#FAFAFA" Style="{StaticResource normalTextBox}" Margin="0, 3, 0, 3"  Template="{StaticResource textContainerTemplate}"
-                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave"/>
-                    </StackPanel>
+                    </StackPanel> -->
 
                     <StackPanel x:Name="passwordStackPanel" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Password*"/>
-                        <PasswordBox BorderBrush="#336ca6" Background="#FAFAFA" Margin="0, 3, 0, 3" Style="{StaticResource passwordTextBox}" Template="{StaticResource textContainerTemplate}"
-                                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" MouseEnter="TextBox_MouseEnter" MouseLeave="TextBox_MouseLeave" />
+                        <PasswordBox BorderBrush="#336ca6" Background="#FAFAFA" Margin="0, 3, 0, 3" Style="{StaticResource passwordTextBox}" Template="{StaticResource textContainerTemplate}"/>
                     </StackPanel>
                     
                     <!-- 

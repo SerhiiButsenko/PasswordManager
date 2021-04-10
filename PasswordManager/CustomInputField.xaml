@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="PasswordManager.CustomInputField"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PasswordManager"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+
+        <Style x:Key="commonStyle" TargetType="TextBox" >
+            <Setter Property="Width" Value="200"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="FontSize" Value="13"></Setter>
+            <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+        </Style>
+
+
+        <Style TargetType="TextBlock" x:Key="textBoxLabel">
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontStyle" Value="Normal"></Setter>
+            <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
+        </Style>
+
+        <Style x:Key="selectedTextBoxLabel" TargetType="TextBlock" BasedOn="{StaticResource textBoxLabel}">
+            <Setter Property="FontFamily" Value="/Roboto/Roboto-Bold.ttf #Roboto"></Setter>
+        </Style>
+
+        <Style x:Key="errorTextBox" TargetType="TextBox" BasedOn="{StaticResource commonStyle}">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border CornerRadius="3" BorderBrush="#FF5F5F" BorderThickness="2" Background="{TemplateBinding Background}">
+                            <Grid Width="200" Height="30">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="165"/>
+                                    <ColumnDefinition Width="35"/>
+                                </Grid.ColumnDefinitions>
+                                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                <Image Grid.Column="1" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 0, 0, 2" Source="/Images/InterfaceIcons/error.png"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="notSelectedTextBox" TargetType="TextBox" BasedOn="{StaticResource commonStyle}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}" >
+                        <Border CornerRadius="3" BorderBrush="#336ca6" BorderThickness="2" Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="selectedTextBox" TargetType="TextBox" BasedOn="{StaticResource commonStyle}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border CornerRadius="3" BorderBrush="Black" BorderThickness="2" Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <!-- _________________________________________________________________________________________________________________________________________________________
+    _________________________________________________________________________________________________________________________________________________________
+    _________________________________________________________________________________________________________________________________________________________
+    _________________________________________________________________________________________________________________________________________________________ -->
+
+
+    <StackPanel x:Name="parentParent" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock x:Name="labelText" Style="{StaticResource textBoxLabel}"/>
+        <TextBox x:Name="inputField" Background="#FAFAFA" Style="{StaticResource notSelectedTextBox}" Margin="0, 3, 0, 3" 
+                 GotFocus="inputField_GotFocus" LostFocus="inputField_LostFocus" MouseEnter="inputField_MouseEnter" MouseLeave="inputField_MouseLeave" />
+        <TextBlock x:Name="errorMessageLabel" Style="{StaticResource textBoxLabel}" Foreground="Red"></TextBlock>
+    </StackPanel>
+    
+</UserControl>
+    
+    
