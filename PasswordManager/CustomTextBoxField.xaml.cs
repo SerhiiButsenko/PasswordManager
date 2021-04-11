@@ -17,11 +17,15 @@ namespace PasswordManager
     /// Interaction logic for CustomInputField.xaml
     /// </summary>
     /// 
-    public partial class CustomInputField : UserControl
+    public partial class CustomTextBoxField : UserControl
     {
 
         private TextContainerState state;
-       
+        Style textBoxLabelStyle;
+        Style selectedTextBoxLabelStyle;
+        Style selectedInputFieldStyle, notSelectedInputFieldStyle, errorInputFieldStyle;
+
+
         /*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /*----------------------------------------------------------------PROPERTIES------------------------------------------------------------------------------*/
         /*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -29,7 +33,7 @@ namespace PasswordManager
         public static readonly DependencyProperty InputFieldNameProperty = DependencyProperty.Register(
                     "InputFieldName",
                     typeof(string),
-                    typeof(CustomInputField));
+                    typeof(CustomTextBoxField));
         public string InputFieldName
         {
             get { return (string)GetValue(InputFieldNameProperty); }
@@ -41,7 +45,7 @@ namespace PasswordManager
         public static readonly DependencyProperty IsFieldRequiredProperty = DependencyProperty.Register(
                    "IsFieldRequired",
                    typeof(bool),
-                   typeof(CustomInputField));
+                   typeof(CustomTextBoxField));
         public bool IsFieldRequired
         {
             get { return (bool)GetValue(IsFieldRequiredProperty); }
@@ -53,7 +57,7 @@ namespace PasswordManager
         public static readonly DependencyProperty ErrorMessageProperty = DependencyProperty.Register(
                   "ErrorMessage",
                   typeof(string),
-                  typeof(CustomInputField));
+                  typeof(CustomTextBoxField));
         public string ErrorMessage
         {
             get { return (string)GetValue(ErrorMessageProperty); }
@@ -64,16 +68,23 @@ namespace PasswordManager
         /*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
         /*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-        public CustomInputField()
+        public CustomTextBoxField()
         {
             InitializeComponent();
             this.DataContext = this;
+
+            textBoxLabelStyle = (Style)Application.Current.MainWindow.Resources["textBoxLabel"];
+            selectedTextBoxLabelStyle = (Style)Application.Current.MainWindow.Resources["selectedTextBoxLabel"];
+            
+            selectedInputFieldStyle = new Style(inputField.GetType(), (Style)Application.Current.MainWindow.Resources["selectedTextBox"]);
+            notSelectedInputFieldStyle = new Style(inputField.GetType(), (Style)Application.Current.MainWindow.Resources["notSelectedTextBox"]);
+            errorInputFieldStyle = new Style(inputField.GetType(), (Style)Application.Current.MainWindow.Resources["errorTextBox"]);
 
             Binding labelTextBinding = new Binding();
             labelTextBinding.Source = this;
             labelTextBinding.Path = new PropertyPath("InputFieldName");
             labelText.SetBinding(TextBlock.TextProperty, labelTextBinding);
-
+            
 
             Binding errorMessageLabelBinding = new Binding();
             errorMessageLabelBinding.Source = this;
@@ -81,8 +92,10 @@ namespace PasswordManager
             errorMessageLabel.SetBinding(TextBlock.TextProperty, errorMessageLabelBinding);
 
             state = TextContainerState.NotSelected;
+            labelText.Style = textBoxLabelStyle;
+            errorMessageLabel.Style = textBoxLabelStyle;
             //Binding:     this.isFieldRequired = isFieldRequired;      
-            setStateNotSelected();
+            setStateNotSelected(); 
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -90,8 +103,6 @@ namespace PasswordManager
             if(IsFieldRequired)
                 InputFieldName += "*";
         }
-
-
 
 
         private void clearErrorMessage()
@@ -105,10 +116,9 @@ namespace PasswordManager
 
         private void setStateNotSelected()
         {
-            inputField.Style = (Style)Resources["notSelectedTextBox"];
+            inputField.Style = notSelectedInputFieldStyle;
             inputField.Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
 
-            labelText.Style = (Style)Resources["textBoxLabel"];
             labelText.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
             clearErrorMessage();
@@ -116,15 +126,15 @@ namespace PasswordManager
             /*if (!parentParent.Children.Contains(this.errorMessage))
                 parentParent.Children.Add(this.errorMessage); */
 
-            state = TextContainerState.NotSelected;
+            state = TextContainerState.NotSelected; 
         }
 
         private void setStateSelected()
         {
-            inputField.Style = (Style)Resources["selectedTextBox"];
+            inputField.Style = selectedInputFieldStyle;
             inputField.Background = new SolidColorBrush(Color.FromRgb(241, 241, 241));
 
-            labelText.Style = (Style)Resources["selectedTextBoxLabel"];
+            labelText.Style = selectedTextBoxLabelStyle;
             labelText.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
             clearErrorMessage();
@@ -137,9 +147,9 @@ namespace PasswordManager
 
         public void displayError(string errorMessage)
         {
-            inputField.Style = (Style)Resources["errorTextBox"];
+            inputField.Style = errorInputFieldStyle;
 
-            labelText.Style = (Style)Resources["selectedTextBoxLabel"];
+            labelText.Style = selectedTextBoxLabelStyle;
             labelText.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
 
             errorMessageLabel.Visibility = Visibility.Visible;

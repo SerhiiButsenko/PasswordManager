@@ -8,18 +8,34 @@
         Title="Password Manager" Height="600" Width="800" Background="#34495e">
     <Window.Resources>
         
-        <Style TargetType="TextBox" x:Key="errorTextBox">
+         <Style TargetType="TextBlock" x:Key="textBoxLabel">
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontStyle" Value="Normal"></Setter>
+            <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
+        </Style>
+
+        <Style x:Key="selectedTextBoxLabel" TargetType="TextBlock" BasedOn="{StaticResource textBoxLabel}">
+            <Setter Property="FontFamily" Value="/Roboto/Roboto-Bold.ttf #Roboto"></Setter>
+        </Style>
+
+        <Style x:Key="commonStyle" TargetType="Control" >
             <Setter Property="Width" Value="200"></Setter>
             <Setter Property="Height" Value="30"></Setter>
-            <Setter Property="Foreground" Value="Red"/>
             <Setter Property="FontSize" Value="13"></Setter>
             <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Top"></Setter>
-            <Setter Property="Template"> 
+        </Style>
+
+        <Style x:Key="errorTextBox" TargetType="Control" BasedOn="{StaticResource commonStyle}">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate x:Name="targetTextBox" TargetType="{x:Type TextBox}">
-                        <Border CornerRadius="3" BorderBrush="#FF5F5F" BorderThickness="2" Background="#FAFAFA">
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border CornerRadius="3" BorderBrush="#FF5F5F" BorderThickness="2" Background="{TemplateBinding Background}">
                             <Grid Width="200" Height="30">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="30"/>
@@ -29,7 +45,7 @@
                                     <ColumnDefinition Width="35"/>
                                 </Grid.ColumnDefinitions>
                                 <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                                <Image Grid.Column="1" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 0, 0, 2" Source="/Images/InterfaceIcons/error.png" ></Image>
+                                <Image Grid.Column="1" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 0, 0, 2" Source="/Images/InterfaceIcons/error.png"/>
                             </Grid>
                         </Border>
                     </ControlTemplate>
@@ -37,46 +53,31 @@
             </Setter>
         </Style>
 
-        <Style x:Key="commonStyle">
-            <Setter Property="Control.Width" Value="200"></Setter>
-            <Setter Property="Control.Height" Value="30"></Setter>
-            <Setter Property="Control.Foreground" Value="#000"/>
-            <Setter Property="Control.FontSize" Value="13"></Setter>
-            <Setter Property="Control.FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
-            <Setter Property="Control.VerticalContentAlignment" Value="Center"></Setter>
-            <Setter Property="Control.VerticalAlignment" Value="Top"></Setter>
+        <Style x:Key="notSelectedTextBox" TargetType="Control" BasedOn="{StaticResource commonStyle}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}" >
+                        <Border CornerRadius="3" BorderBrush="#336ca6" BorderThickness="2" Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
-        <ControlTemplate x:Key="normalTextBoxTemplate">
-            <Border x:Name="border" CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
-                <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-            </Border>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="textContainerTemplate">
-            <Border CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="#FAFAFA">
-                <Grid Width="200" Height="30">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="165"/>
-                        <ColumnDefinition Width="35"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <ScrollViewer x:Name="PART_ContentHost" Grid.Column="0" Grid.ColumnSpan="{TemplateBinding Property=Grid.ColumnSpan}" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                    <Image Grid.Column="1" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 0, 0, 2" />
-                    <!-- Source="/Images/InterfaceIcons/error.png" -->
-                </Grid>
-            </Border>
-        </ControlTemplate>
-
-        <Style x:Key="normalTextBox" TargetType="TextBox" BasedOn="{StaticResource commonStyle}">
+        <Style x:Key="selectedTextBox" TargetType="Control" BasedOn="{StaticResource commonStyle}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border CornerRadius="3" BorderBrush="Black" BorderThickness="2" Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
-
-        <Style x:Key="passwordTextBox" TargetType="PasswordBox" BasedOn="{StaticResource commonStyle}">
-        </Style>
-
         <Style TargetType="Image" x:Key="SavedElementOperation">
             <Setter Property="Width" Value="20"></Setter>
             <Setter Property="Height" Value="20"></Setter>
@@ -100,18 +101,6 @@
             <Setter Property="Cursor" Value="Hand"></Setter>
         </Style>
 
-        <Style TargetType="TextBlock" x:Key="textBoxLabel">
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Foreground" Value="Black"></Setter>
-            <Setter Property="FontSize" Value="12"></Setter>
-            <Setter Property="FontStyle" Value="Normal"></Setter>
-            <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
-        </Style>
-
-        <Style x:Key="selectedTextBoxLabel" TargetType="TextBlock" BasedOn="{StaticResource textBoxLabel}">
-            <Setter Property="FontFamily" Value="/Roboto/Roboto-Bold.ttf #Roboto"></Setter>
-        </Style>
 
         <Style TargetType="Button" x:Key="BlueButton">
             <Setter Property="Width" Value="70"></Setter>
@@ -389,11 +378,11 @@
                         <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 5, 0, 0" Style="{StaticResource textBoxLabel}" Text="Image" />
                     </StackPanel>
 
-                    <local:CustomInputField x:Name="titleInputField" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" InputFieldName="Title" IsFieldRequired="True"/>
+                    <local:CustomTextBoxField x:Name="titleInputField" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" InputFieldName="Title" IsFieldRequired="True"/>
 
-                    <local:CustomInputField x:Name="websiteInputField" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" InputFieldName="Website-Address" IsFieldRequired="True" />
+                    <local:CustomTextBoxField x:Name="websiteInputField" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" InputFieldName="Website-Address" IsFieldRequired="True" />
 
-                    <local:CustomInputField x:Name="loginInputField" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" InputFieldName="Login" IsFieldRequired="True"/>
+                    <local:CustomTextBoxField x:Name="loginInputField" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" InputFieldName="Login" IsFieldRequired="True"/>
 
                     <!-- <StackPanel x:Name="websiteStackPanel" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Website-Address*"/>
@@ -403,7 +392,7 @@
 
                     <StackPanel x:Name="passwordStackPanel" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource textBoxLabel}" Text="Password*"/>
-                        <PasswordBox BorderBrush="#336ca6" Background="#FAFAFA" Margin="0, 3, 0, 3" Style="{StaticResource passwordTextBox}" Template="{StaticResource textContainerTemplate}"/>
+                        <PasswordBox BorderBrush="#336ca6" Background="#FAFAFA" Margin="0, 3, 0, 3" />
                     </StackPanel>
                     
                     <!-- 
