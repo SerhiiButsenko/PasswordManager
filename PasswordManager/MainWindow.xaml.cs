@@ -262,14 +262,23 @@ namespace PasswordManager
                 errorMessage = "";
             }
 
-
-           /* if (thereIsNoErrors)
+            errorMessage = passwordInputField.checkIfHasNoErrors();
+            if (errorMessage != "")
             {
-                ListOfLogins.addNewLogin(readUserLogin());
-                ListOfLogins.goToLastPage();
-                ElementInfoPanel.Visibility = Visibility.Hidden;
-                AddNewElementButton.Visibility = Visibility.Visible;
-            } */
+                passwordInputField.displayError(errorMessage);
+                passwordInputField.ErrorMessage = errorMessage;
+                thereIsNoErrors = false;
+                errorMessage = "";
+            }
+
+
+            /* if (thereIsNoErrors)
+             {
+                 ListOfLogins.addNewLogin(readUserLogin());
+                 ListOfLogins.goToLastPage();
+                 ElementInfoPanel.Visibility = Visibility.Hidden;
+                 AddNewElementButton.Visibility = Visibility.Visible;
+             } */
         }
 
         private void CancelElementButton_Click(object sender, RoutedEventArgs e)

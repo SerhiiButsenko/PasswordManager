@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace PasswordManager
 {
@@ -13,5 +14,7 @@ namespace PasswordManager
     /// </summary>
     public partial class App : Application
     {
+        public SolidColorBrush notSelectedPasswordBoxColor = new SolidColorBrush(Color.FromRgb(51, 108, 166));
+
     }
 }

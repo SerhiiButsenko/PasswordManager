@@ -73,12 +73,12 @@ namespace PasswordManager
             InitializeComponent();
             this.DataContext = this;
 
-            textBoxLabelStyle = (Style)Application.Current.MainWindow.Resources["textBoxLabel"];
-            selectedTextBoxLabelStyle = (Style)Application.Current.MainWindow.Resources["selectedTextBoxLabel"];
+            textBoxLabelStyle = (Style)Application.Current.Resources["textContainerLabel"];
+            selectedTextBoxLabelStyle = (Style)Application.Current.Resources["selectedTextContainerLabel"];
             
-            selectedInputFieldStyle = new Style(inputField.GetType(), (Style)Application.Current.MainWindow.Resources["selectedTextBox"]);
-            notSelectedInputFieldStyle = new Style(inputField.GetType(), (Style)Application.Current.MainWindow.Resources["notSelectedTextBox"]);
-            errorInputFieldStyle = new Style(inputField.GetType(), (Style)Application.Current.MainWindow.Resources["errorTextBox"]);
+            selectedInputFieldStyle = new Style(inputField.GetType(), (Style)Application.Current.Resources["selectedTextContainer"]);
+            notSelectedInputFieldStyle = new Style(inputField.GetType(), (Style)Application.Current.Resources["notSelectedTextContainer"]);
+            errorInputFieldStyle = new Style(inputField.GetType(), (Style)Application.Current.Resources["errorTextContainer"]);
 
             Binding labelTextBinding = new Binding();
             labelTextBinding.Source = this;
@@ -98,8 +98,8 @@ namespace PasswordManager
             setStateNotSelected(); 
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
+        private void CustomTextBoxField_Loaded(object sender, RoutedEventArgs e)
+        {    
             if(IsFieldRequired)
                 InputFieldName += "*";
         }
