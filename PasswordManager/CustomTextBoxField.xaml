@@ -8,10 +8,10 @@
              d:DesignHeight="450" d:DesignWidth="800" Loaded="CustomTextBoxField_Loaded">
 
     <StackPanel x:Name="parentParent" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock x:Name="labelText" />
+        <local:CustomLabel x:Name="titleLabel" /> 
         <TextBox x:Name="inputField" Background="#FAFAFA" Margin="0, 3, 0, 3" 
                  GotFocus="inputField_GotFocus" LostFocus="inputField_LostFocus" MouseEnter="inputField_MouseEnter" MouseLeave="inputField_MouseLeave" />
-        <TextBlock x:Name="errorMessageLabel" Foreground="Red"></TextBlock>
+        <local:CustomLabel x:Name="errorMessage"/>
     </StackPanel>
     
 </UserControl>

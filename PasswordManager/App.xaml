@@ -7,19 +7,7 @@
         <ResourceDictionary>
             <SolidColorBrush x:Key="AppResBlueColor" Color="#336ca6"/>
             <SolidColorBrush x:Key="AppResBlackColor" Color="Black"/>
-
-            <Style x:Key="textContainerLabel" TargetType="TextBlock">
-                <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-                <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                <Setter Property="Foreground" Value="Black"></Setter>
-                <Setter Property="FontSize" Value="12"></Setter>
-                <Setter Property="FontStyle" Value="Normal"></Setter>
-                <Setter Property="FontFamily" Value="/Roboto/Roboto-Regular.ttf #Roboto"></Setter>
-            </Style>
-
-            <Style x:Key="selectedTextContainerLabel" TargetType="TextBlock" BasedOn="{StaticResource textContainerLabel}">
-                <Setter Property="FontFamily" Value="/Roboto/Roboto-Bold.ttf #Roboto"></Setter>
-            </Style>
+         
 
             <Style x:Key="commonStyle" TargetType="Control" >
                 <Setter Property="Width" Value="200"></Setter>
@@ -31,11 +19,11 @@
             </Style>
 
             <Style x:Key="errorTextContainer" TargetType="Control" BasedOn="{StaticResource commonStyle}">
-                <Setter Property="Foreground" Value="Red"/>
+               <!-- <Setter Property="Foreground" Value="Red"/> -->
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate>
-                            <Border CornerRadius="3" BorderBrush="#FF5F5F" BorderThickness="2" Background="{TemplateBinding Background}">
+                            <Border CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
                                 <Grid Width="200" Height="30">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="30"/>
@@ -45,7 +33,51 @@
                                         <ColumnDefinition Width="35"/>
                                     </Grid.ColumnDefinitions>
                                     <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
-                                    <Image Grid.Column="1" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 0, 0, 2" Source="/Images/InterfaceIcons/error.png"/>
+                                    <Image Grid.Column="1" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 0, 0, 2" Source="/Images/InterfaceIcons/error.png" Cursor="Hand"/>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="selectedPasswordBox" TargetType="PasswordBox" BasedOn="{StaticResource commonStyle}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Border CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+                                <Grid Width="200" Height="30">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="165"/>
+                                        <ColumnDefinition Width="35"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                    <Image x:Name="img" Grid.Column="1" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 0, 0, 2" Source="/Images/InterfaceIcons/showPassword.png" Cursor="Hand" />
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="selectedTextBox" TargetType="TextBox" BasedOn="{StaticResource commonStyle}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Border CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2" Background="{TemplateBinding Background}">
+                                <Grid Width="200" Height="30">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="165"/>
+                                        <ColumnDefinition Width="35"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                    <Image x:Name="img" Grid.Column="1" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 0, 0, 2" Source="/Images/InterfaceIcons/dontShowPassword.png" Cursor="Hand" />
                                 </Grid>
                             </Border>
                         </ControlTemplate>

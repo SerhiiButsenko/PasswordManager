@@ -8,8 +8,7 @@
         Title="Password Manager" Height="600" Width="800" Background="#34495e">
     <Window.Resources>
         
-        
-        
+            
         <Style TargetType="Image" x:Key="SavedElementOperation">
             <Setter Property="Width" Value="20"></Setter>
             <Setter Property="Height" Value="20"></Setter>

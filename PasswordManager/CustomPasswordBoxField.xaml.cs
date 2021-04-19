@@ -18,93 +18,30 @@ namespace PasswordManager
     /// 
     /// </summary>
 
-    public partial class CustomPasswordBoxField : UserControl
+    public partial class CustomPasswordBoxField : TextContainerTemplate
     {
-        private TextContainerState state;
-        Style textBoxLabelStyle;
-        Style selectedTextBoxLabelStyle;
-        Style selectedTextBoxStyle, selectedPasswordBoxStyle, notSelectedInputFieldStyle, errorInputFieldStyle;
+        Style selectedTextBoxStyle, selectedPasswordBoxStyle;
         SolidColorBrush strongPassword = new SolidColorBrush(Color.FromRgb(44, 180, 54));
         SolidColorBrush weakPassword = new SolidColorBrush(Color.FromRgb(255, 95, 95));
         SolidColorBrush mediumPassword = new SolidColorBrush(Color.FromRgb(255, 195, 0));
         SolidColorBrush goodPassword = new SolidColorBrush(Color.FromRgb(147, 218, 24));
         SolidColorBrush notSelectedPasswordBoxColor = (SolidColorBrush) Application.Current.FindResource("AppResBlueColor");
         SolidColorBrush selectedPasswordBoxColor = (SolidColorBrush)Application.Current.FindResource("AppResBlackColor");
-       
-
-        /*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
-        /*----------------------------------------------------------------PROPERTIES------------------------------------------------------------------------------*/
-        /*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-        public static readonly DependencyProperty InputFieldNameProperty = DependencyProperty.Register(
-                    "InputFieldName",
-                    typeof(string),
-                    typeof(CustomPasswordBoxField));
-        public string InputFieldName
-        {
-            get { return (string)GetValue(InputFieldNameProperty); }
-            set { SetValue(InputFieldNameProperty, value); }
-        }
+        
 
 
-        public static readonly DependencyProperty IsFieldRequiredProperty = DependencyProperty.Register(
-                   "IsFieldRequired",
-                   typeof(bool),
-                   typeof(CustomPasswordBoxField));
-        public bool IsFieldRequired
-        {
-            get { return (bool)GetValue(IsFieldRequiredProperty); }
-            set { SetValue(IsFieldRequiredProperty, value); }
-        }
-
-
-
-        public static readonly DependencyProperty ErrorMessageProperty = DependencyProperty.Register(
-                  "ErrorMessage",
-                  typeof(string),
-                  typeof(CustomPasswordBoxField));
-        public string ErrorMessage
-        {
-            get { return (string)GetValue(ErrorMessageProperty); }
-            set { SetValue(ErrorMessageProperty, value); }
-        }
-
-        /*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
-        /*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
-        /*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-        public CustomPasswordBoxField()
+        public CustomPasswordBoxField() : base(new TextBlock())
         {
             InitializeComponent();
-            this.DataContext = this;
 
-            textBoxLabelStyle = (Style)Application.Current.Resources["textContainerLabel"];
-            selectedTextBoxLabelStyle = (Style)Application.Current.Resources["selectedTextContainerLabel"];
-
-            selectedTextBoxStyle = (Style)Resources["selectedTextBox"];
-            selectedPasswordBoxStyle = (Style)Resources["selectedPasswordBox"];
-            notSelectedInputFieldStyle = (Style)Application.Current.Resources["notSelectedTextContainer"];
-            errorInputFieldStyle = (Style)Application.Current.Resources["errorTextContainer"];
-
-
-            Binding labelTextBinding = new Binding();
-            labelTextBinding.Source = this;
-            labelTextBinding.Path = new PropertyPath("InputFieldName");
-            labelText.SetBinding(TextBlock.TextProperty, labelTextBinding);
-
-
-            Binding errorMessageLabelBinding = new Binding();
-            errorMessageLabelBinding.Source = this;
-            errorMessageLabelBinding.Path = new PropertyPath("ErrorMessage");
-            errorMessageLabel.SetBinding(TextBlock.TextProperty, errorMessageLabelBinding);
+            selectedTextBoxStyle = (Style) Application.Current.FindResource("selectedTextBox");
+            selectedPasswordBoxStyle = (Style) Application.Current.FindResource("selectedPasswordBox");
 
             passwordBoxField.Visibility = Visibility.Visible;
             textBoxField.Visibility = Visibility.Hidden;
 
-            state = TextContainerState.NotSelected;
-            labelText.Style = textBoxLabelStyle;
-            errorMessageLabel.Style = textBoxLabelStyle;
-            //Binding:     this.isFieldRequired = isFieldRequired;      
+            labelText.Style = textContainerLabelStyle;
+            messageLabel.Style = textContainerLabelStyle;
             setStateNotSelected();
         }
 
@@ -126,19 +63,20 @@ namespace PasswordManager
 
         private void setStateNotSelected()
         {
-            passwordBoxField.Style = notSelectedInputFieldStyle;
+            passwordBoxField.Style = notSelectedTextContainerStyle;
             passwordBoxField.Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
             passwordBoxField.BorderBrush = notSelectedPasswordBoxColor;
 
-            textBoxField.Style = notSelectedInputFieldStyle;
+            textBoxField.Style = notSelectedTextContainerStyle;
             textBoxField.Background = new SolidColorBrush(Color.FromRgb(250, 250, 250));
             textBoxField.BorderBrush = notSelectedPasswordBoxColor;
 
+            labelText.Style = textContainerLabelStyle;
             labelText.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
             clearErrorMessage();
-            errorMessageLabel.Visibility = Visibility.Hidden;
-            errorMessageLabel.HorizontalAlignment = HorizontalAlignment.Right;
+            messageLabel.Visibility = Visibility.Hidden;
+           // messageLabel.HorizontalAlignment = HorizontalAlignment.Right;
             /*if (!parentParent.Children.Contains(this.errorMessage))
                 parentParent.Children.Add(this.errorMessage); */
 
@@ -158,12 +96,12 @@ namespace PasswordManager
             textBoxField.BorderBrush = selectedPasswordBoxColor;
 
 
-            labelText.Style = selectedTextBoxLabelStyle;
+            labelText.Style = selectedTextContainerLabelStyle;
             labelText.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
             clearErrorMessage();
-            errorMessageLabel.Visibility = Visibility.Hidden;
-            errorMessageLabel.HorizontalAlignment = HorizontalAlignment.Right;
+            messageLabel.Visibility = Visibility.Hidden;
+         //   messageLabel.HorizontalAlignment = HorizontalAlignment.Right;
             /*  if (!parentParent.Children.Contains(this.errorMessage))
                   parentParent.Children.Add(this.errorMessage); */
 
@@ -172,16 +110,15 @@ namespace PasswordManager
 
         public void displayError(string errorMessage)
         {
-            passwordBoxField.Style = errorInputFieldStyle;
-            textBoxField.Style = errorInputFieldStyle;
+            passwordBoxField.Style = errorTextContainerStyle;
+            textBoxField.Style = errorTextContainerStyle;
 
-
-
-            labelText.Style = selectedTextBoxLabelStyle;
+            labelText.Style = selectedTextContainerLabelStyle;
             labelText.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
 
-            errorMessageLabel.Visibility = Visibility.Visible;
-            errorMessageLabel.HorizontalAlignment = HorizontalAlignment.Left;
+            messageLabel.Visibility = Visibility.Visible;
+            messageLabel.HorizontalAlignment = HorizontalAlignment.Left;
+            messageLabel.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
 
             //setErrorMessage(errorMessage);
         }
@@ -199,9 +136,11 @@ namespace PasswordManager
                 return "";
         }
 
+
         private void inputField_GotFocus(object sender, RoutedEventArgs e)
         {
             setStateSelected();
+            displayCurrentPassword(sender);
         }
 
         private void inputField_LostFocus(object sender, RoutedEventArgs e)
@@ -214,7 +153,9 @@ namespace PasswordManager
             textBoxField.Text = passwordBoxField.Password.ToString();
             textBoxField.Visibility = Visibility.Visible;
             passwordBoxField.Visibility = Visibility.Hidden;
+           // currentCaretPosition = passwordBox
             setStateSelected();
+            displayCurrentPassword(passwordBoxField);
         }
 
         private void hidePassword(object sender, MouseButtonEventArgs e)
@@ -223,28 +164,54 @@ namespace PasswordManager
             textBoxField.Visibility = Visibility.Hidden;
             passwordBoxField.Visibility = Visibility.Visible;
             setStateSelected();
+            displayCurrentPassword(textBoxField);
         }
 
-        private void inputField_PasswordChanged(object sender, RoutedEventArgs e)
+        private void displayCurrentPassword(object sender)
         {
-            if(passwordBoxField.Password.Length <= 3)
+            string currentPassword = sender is PasswordBox ? (sender as PasswordBox).Password.ToString() : (sender as TextBox).Text;
+
+            if(currentPassword.Length == 0)
+            {
+                setStateSelected();
+                return;
+            }
+
+            if (currentPassword.Length <= 3)
             {
                 passwordBoxField.BorderBrush = weakPassword;
                 textBoxField.BorderBrush = weakPassword;
-            } else if(passwordBoxField.Password.Length > 3 && passwordBoxField.Password.Length <= 6)
+                messageLabel.Foreground = weakPassword;
+                messageLabel.Text = "Weak";
+            }
+            else if (currentPassword.Length > 3 && currentPassword.Length <= 6)
             {
                 passwordBoxField.BorderBrush = mediumPassword;
                 textBoxField.BorderBrush = mediumPassword;
+                messageLabel.Foreground = mediumPassword;
+                messageLabel.Text = "Medium";
             }
-            else if (passwordBoxField.Password.Length > 6 && passwordBoxField.Password.Length < 10)
+            else if (currentPassword.Length > 6 && currentPassword.Length < 10)
             {
                 passwordBoxField.BorderBrush = goodPassword;
                 textBoxField.BorderBrush = goodPassword;
-            } else
+                messageLabel.Foreground = goodPassword;
+                messageLabel.Text = "Good";
+            }
+            else
             {
                 passwordBoxField.BorderBrush = strongPassword;
                 textBoxField.BorderBrush = strongPassword;
+                messageLabel.Foreground = strongPassword;
+                messageLabel.Text = "Strong";
             }
+            messageLabel.HorizontalAlignment = HorizontalAlignment.Right;
+            messageLabel.Visibility = Visibility.Visible;
+        }
+
+        private void inputField_TextChanged(object sender, RoutedEventArgs e)
+        {
+            displayCurrentPassword(sender);
         }
 
         private void inputField_MouseEnter(object sender, MouseEventArgs e)

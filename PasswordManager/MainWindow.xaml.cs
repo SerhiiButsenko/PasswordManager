@@ -238,8 +238,8 @@ namespace PasswordManager
             errorMessage = titleInputField.checkIfHasNoErrors();
             if(errorMessage != "")
             {
-                titleInputField.displayError(errorMessage);
                 titleInputField.ErrorMessage = errorMessage;
+                titleInputField.displayError(errorMessage);
                 thereIsNoErrors = false;
                 errorMessage = "";
             }
@@ -247,8 +247,8 @@ namespace PasswordManager
             errorMessage = websiteInputField.checkIfHasNoErrors();
             if (errorMessage != "")
             {
-                websiteInputField.displayError(errorMessage);
                 websiteInputField.ErrorMessage = errorMessage;
+                websiteInputField.displayError(errorMessage);
                 thereIsNoErrors = false;
                 errorMessage = "";
             }
@@ -256,8 +256,8 @@ namespace PasswordManager
             errorMessage = loginInputField.checkIfHasNoErrors();
             if (errorMessage != "")
             {
-                loginInputField.displayError(errorMessage);
                 loginInputField.ErrorMessage = errorMessage;
+                loginInputField.displayError(errorMessage);           
                 thereIsNoErrors = false;
                 errorMessage = "";
             }
@@ -265,8 +265,8 @@ namespace PasswordManager
             errorMessage = passwordInputField.checkIfHasNoErrors();
             if (errorMessage != "")
             {
-                passwordInputField.displayError(errorMessage);
                 passwordInputField.ErrorMessage = errorMessage;
+                passwordInputField.displayError(errorMessage);            
                 thereIsNoErrors = false;
                 errorMessage = "";
             }
